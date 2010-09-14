@@ -1,0 +1,186 @@
+[
+  {
+    "pk": 1, 
+    "model": "Dojo.club", 
+    "fields": {
+      "Name": "Drexel Judo", 
+      "Slug": "drexel-judo"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.club", 
+    "fields": {
+      "Name": "UPenn Judo", 
+      "Slug": "upenn-judo"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "is_instructor": true, 
+      "Name": "Will Dampier", 
+      "Rank": [
+        1
+      ], 
+      "Email": "junk@gmail.com"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "is_instructor": false, 
+      "Name": "Jen S", 
+      "Rank": [
+        2
+      ], 
+      "Email": "junk2@gmail.com"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "Drexel Waiver", 
+      "Slug": "drexel-waiver"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "UPenn waiver", 
+      "Slug": "upenn-waiver"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "Drexel HeadMinder", 
+      "Slug": "drexel-headminder"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "Drexel MiniPhysical", 
+      "Slug": "drexel-mini-physical"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 90, 
+      "Name": "Drexel Dues", 
+      "Slug": "drexel-dues"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Date": "2010-09-14", 
+      "Club": [
+        1
+      ]
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Date": "2010-09-06", 
+      "Club": [
+        1
+      ]
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Date": "2010-09-02", 
+      "Club": [
+        1
+      ]
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Date": "2010-08-09", 
+      "Club": [
+        2
+      ]
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 1, 
+      "Practice": 1, 
+      "DateOccured": "2010-09-14"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 1, 
+      "Practice": 2, 
+      "DateOccured": "2010-09-06"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 2, 
+      "Practice": 4, 
+      "DateOccured": "2010-08-09"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 2, 
+      "Practice": 2, 
+      "DateOccured": "2010-09-06"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Dojo.rankrecord", 
+    "fields": {
+      "DateOccured": "2010-09-14", 
+      "Rank": "Nidan"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.rankrecord", 
+    "fields": {
+      "DateOccured": "2010-09-14", 
+      "Rank": "Sankyu"
+    }
+  }
+]
