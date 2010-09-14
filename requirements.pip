@@ -1,0 +1,8 @@
+django==1.2
+south>=0.7
+nose
+python-memcached
+django-nose
+django-cpserver
+cherrypy
+pylint
