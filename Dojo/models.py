@@ -39,7 +39,8 @@ class Person(models.Model):
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
     Slug = models.SlugField()
-    URL = models.URLField(verify_exists = False)
+    URL = models.URLField(default = None, blank = True, null = True,
+                          verify_exists = False)
     Valid_for = models.IntegerField()
 
     def __unicode__(self):
@@ -50,7 +51,7 @@ class Practice(models.Model):
     Date = models.DateField()
 
     def __unicode__(self):
-        return '<%s:%s>' % (self.Club, self.Date)
+        return '<%s:%s>' % (self.Club.latest('Name'), self.Date)
 
 #Record models
 class RequirementRecord(PersonRecord):
@@ -67,10 +68,7 @@ class PracticeRecord(PersonRecord):
     def __unicode__(self):
         return self._base_unicode(self.Practice)
 
-    def _get_date(self):
-        return self.Practice.Date
-
-    DateOccured = property(_get_date)
+    
 
 class MemberRecord(PersonRecord):
     Club = models.ForeignKey(Club)
