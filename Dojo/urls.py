@@ -7,10 +7,10 @@ from views import *
 
 
 urlpatterns = patterns('',
-                       url(r'^dojo_list.html', dojo_list, name = 'dojo_list'),
-                       url(r'^(P<dojo>[\w-]+)/dojo_detail.html', dojo_detail, name = 'dojo_detail'),
-                       url(r'^(P<dojo>[\w-]+)/practice_list.html', practice_list, name = 'practice_list'),
-                       url(r'^(P<dojo>[\w-]+)/(P<id>\d+)/practice_detail.html', practice_detail, name = 'practice_detail'),
-                       url(r'^(P<dojo>[\w-]+)/person_list.html', person_list, name = 'person_list'),
-                       url(r'^(P<dojo>[\w-]+)/(P<id>\d+)/person_detail.html', person_detail, name = 'person_list'),
+                       url(r'^club_list.html', club_list, name = 'club_list'),
+                       url(r'^(P<club>[\w-]+)/club_detail.html', club_detail, name = 'club_detail'),
+                       url(r'^(P<club>[\w-]+)/practice_list.html', practice_list, name = 'practice_list'),
+                       url(r'^(P<club>[\w-]+)/(P<id>\d+)/practice_detail.html', practice_detail, name = 'practice_detail'),
+                       url(r'^(P<club>[\w-]+)/person_list.html', person_list, name = 'person_list'),
+                       url(r'^(P<club>[\w-]+)/(P<id>\d+)/person_detail.html', person_detail, name = 'person_list'),
                        )
