@@ -24,7 +24,8 @@ class Person(models.Model):
                                           through = 'RequirementRecord')
     PracticeAttended = models.ManyToManyField('Practice',
                                               through = 'PracticeRecord')
-    Picture = models.ImageField(upload_to = 'pictures')
+    Picture = models.ImageField(upload_to = 'pictures', null = True,
+                                blank = True, default = None)
 
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
