@@ -79,7 +79,8 @@ class MemberRecord(PersonRecord):
     def __unicode__(self):
         return self._base_unicode(self.Club)
 
-class RankRecord(PersonRecord):
+class RankRecord(models.Model):
+    DateOccured = models.DateField()
     rank_choices = [('White', 'White'),
                     ('Yellow', 'Yellow'),
                     ('Orange', 'Orange'),
@@ -95,4 +96,4 @@ class RankRecord(PersonRecord):
                             choices = rank_choices)
 
     def __unicode__(self):
-        return self._base_unicode(self.Rank)
+        return '<%s:%s>' % (self.Rank, self.DateOccured)
