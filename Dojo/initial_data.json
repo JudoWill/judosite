@@ -1,0 +1,68 @@
+[
+  {
+    "pk": 1, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "Drexel Waiver", 
+      "Slug": "drexel-waiver"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "UPenn waiver", 
+      "Slug": "upenn-waiver"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "Drexel HeadMinder", 
+      "Slug": "drexel-headminder"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 365, 
+      "Name": "Drexel MiniPhysical", 
+      "Slug": "drexel-mini-physical"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Dojo.requirement", 
+    "fields": {
+      "URL": "", 
+      "Valid_for": 90, 
+      "Name": "Drexel Dues", 
+      "Slug": "drexel-dues"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "Dojo.club", 
+    "fields": {
+      "Name": "Drexel Judo", 
+      "Slug": "drexel-judo"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.club", 
+    "fields": {
+      "Name": "UPenn Judo", 
+      "Slug": "upenn-judo"
+    }
+  }
+]
