@@ -1,5 +1,5 @@
 # Django settings for judosite project.
-import os
+import os.path
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -19,6 +19,9 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+TEST_NAME = 'test_database'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -46,12 +49,12 @@ USE_L10N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = ''
-
+STATIC_FILE_ROOT = os.path.abspath('media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
-
+MEDIA_URL = '/site_media'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
@@ -81,7 +84,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.abspath('templates')
+    os.path.abspath('templates')
 )
 
 INSTALLED_APPS = (
@@ -98,3 +101,13 @@ INSTALLED_APPS = (
     'Dojo',
     'Technique'
 )
+
+LOGIN_REDIRECT_URL = '/index.html'
+LOGIN_URL = 'login.html'
+HOME_DIR = os.path.realpath('')
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
+try:
+	from local_settings import *
+except ImportError:
+	pass
