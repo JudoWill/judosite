@@ -27,7 +27,15 @@ def club_list(request):
 
 
 def club_detail(request, club = None):
-    pass
+
+    info_dict = {
+        'queryset':Club.objects.all(),
+        'template_name':'Dojo/Club_object_detail.html',
+        'slug':club,
+        'slug_field':'Slug'
+    }
+
+    return list_detail.object_detail(request, **info_dict)
 
 def practice_list(request, club = None):
     pass
