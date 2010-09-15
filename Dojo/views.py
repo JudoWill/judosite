@@ -20,7 +20,7 @@ def club_list(request):
 
     info_dict = {
         'queryset':Club.objects.all(),
-        'template_name':'Club/object_list.html'
+        'template_name':'Dojo/Club_object_list.html'
     }
 
     return list_detail.object_list(request, **info_dict)
