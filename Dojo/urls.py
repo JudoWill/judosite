@@ -4,7 +4,7 @@ from views import *
 
 
 urlpatterns = patterns('django.views.generic.simple',
-                       (r'^home.html',             'direct_to_template', {'template': 'index.html'}),
+                       (r'^home.html', 'direct_to_template', {'template': 'index.html'}),
                        )
 
 urlpatterns += patterns('',
