@@ -19,11 +19,21 @@ class Club(models.Model):
     Slug = models.SlugField()
     Members = models.ManyToManyField('Person', through = 'MemberRecord')
 
+    class Meta:
+        get_latest_by = 'Name'
+        ordering = ['Name']
+
     def __unicode__(self):
         return self.Slug
 
     def get_absolute_url(self):
         return reverse('club_detail', kwargs = {'slug': self.Slug})
+
+    def get_instructors(self):
+        return self.Members.filter(is_instructor = True)
+
+    def get_students(self):
+        return self.Members.filter(is_instructor = False)
 
 class Person(models.Model):
     Name = models.CharField(max_length = 255)
@@ -36,6 +46,9 @@ class Person(models.Model):
                                               through = 'PracticeRecord')
     Picture = models.ImageField(upload_to = 'pictures', null = True,
                                 blank = True, default = None)
+
+    class Meta:
+        ordering = ['Name']
 
     def __unicode__(self):
         return self.Name
@@ -50,6 +63,10 @@ class Requirement(models.Model):
                           verify_exists = False)
     Valid_for = models.IntegerField()
 
+    class Meta:
+        get_latest_by = 'Name'
+        ordering = ['Name']
+
     def __unicode__(self):
         return self.Slug
 
@@ -59,6 +76,10 @@ class Requirement(models.Model):
 class Practice(models.Model):
     Club = models.ForeignKey(Club, default = None, null = True)
     Date = models.DateField()
+
+    class Meta:
+        get_latest_by = 'Date'
+        ordering = ['Club', 'Date']
 
     def __unicode__(self):
         return '<%s:%s>' % (self.Club.latest('Name'), self.Date)
@@ -72,6 +93,9 @@ class Practice(models.Model):
 class RequirementRecord(PersonRecord):
     Requirement = models.ForeignKey(Requirement)
 
+    class Meta:
+        get_latest_by = 'DateOccured'
+        ordering = ['Requirement', 'DateOccured']
 
     def __unicode__(self):
         return self._base_unicode(self.Requirement)
@@ -79,6 +103,10 @@ class RequirementRecord(PersonRecord):
 
 class PracticeRecord(PersonRecord):
     Practice = models.ForeignKey(Practice)
+
+    class Meta:
+        get_latest_by = 'DateOccured'
+        ordering = ['Practice', 'DateOccured']
 
     def __unicode__(self):
         return self._base_unicode(self.Practice)
@@ -88,6 +116,10 @@ class PracticeRecord(PersonRecord):
 class MemberRecord(PersonRecord):
     Club = models.ForeignKey(Club)
     is_active = models.BooleanField(default = True)
+
+    class Meta:
+        get_latest_by = 'DateOccured'
+        ordering = ['Club', 'DateOccured']
 
     def __unicode__(self):
         return self._base_unicode(self.Club)
@@ -107,6 +139,10 @@ class RankRecord(models.Model):
 
     Rank = models.CharField(max_length = 255,
                             choices = rank_choices)
+
+    class Meta:
+        get_latest_by = 'DateOccured'
+        ordering = ['DateOccured', 'Rank']
 
     def __unicode__(self):
         return '<%s:%s>' % (self.Rank, self.DateOccured)
