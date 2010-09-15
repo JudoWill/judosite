@@ -62,6 +62,7 @@ class Requirement(models.Model):
     URL = models.URLField(default = None, blank = True, null = True,
                           verify_exists = False)
     Valid_for = models.IntegerField()
+    Club = models.ForeignKey(Club, default = None, null = True)
 
     class Meta:
         get_latest_by = 'Name'
