@@ -5,7 +5,12 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('django.views.generic.simple',
+                       (r'^home.html', 'direct_to_template', {'template': 'index.html'}),
+                       )
+
+
+urlpatterns += patterns('',
     # Example:
     # (r'^judosite/', include('judosite.foo.urls')),
 

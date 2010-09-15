@@ -3,11 +3,7 @@ from django.conf import settings
 from views import *
 
 
-urlpatterns = patterns('django.views.generic.simple',
-                       (r'^home.html', 'direct_to_template', {'template': 'index.html'}),
-                       )
-
-urlpatterns += patterns('',
+urlpatterns = patterns('',
                        url(r'^club_list.html', club_list, name = 'club_list'),
                        url(r'^(P<club>[\w-]+)/club_detail.html', club_detail, name = 'club_detail'),
                        url(r'^(P<club>[\w-]+)/practice_list.html', practice_list, name = 'practice_list'),
