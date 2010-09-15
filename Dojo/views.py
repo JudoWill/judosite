@@ -32,11 +32,18 @@ def club_detail(request, club = None):
 def practice_list(request, club = None):
     pass
 
-def practice_detail(request, club = None, id = None):
+def practice_detail(request, id = None):
     pass
 
 def person_list(request, club = None):
     pass
 
 def person_detail(request, club = None, id = None):
+    pass
+
+    
+def requirement_detail(request, slug = None):
+    pass
+
+def requirement_list(request):
     pass

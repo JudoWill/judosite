@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 
@@ -21,6 +22,9 @@ class Club(models.Model):
     def __unicode__(self):
         return self.Slug
 
+    def get_absolute_url(self):
+        return reverse('club_detail', self.Slug)
+
 class Person(models.Model):
     Name = models.CharField(max_length = 255)
     Email = models.EmailField(null = True, blank = True, default = None)
@@ -36,6 +40,9 @@ class Person(models.Model):
     def __unicode__(self):
         return self.Name
 
+    def get_absolute_url(self):
+        return reverse('person_detail', self.id)
+
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
     Slug = models.SlugField()
@@ -46,12 +53,18 @@ class Requirement(models.Model):
     def __unicode__(self):
         return self.Slug
 
+    def get_absolute_url(self):
+        return reverse('requirement_detail', self.Slug)
+
 class Practice(models.Model):
     Club = models.ManyToManyField(Club)
     Date = models.DateField()
 
     def __unicode__(self):
         return '<%s:%s>' % (self.Club.latest('Name'), self.Date)
+
+    def get_absolute_url(self):
+        return reverse('practice_detail', self.Club.Slug, self.id)
 
 #Record models
 class RequirementRecord(PersonRecord):
