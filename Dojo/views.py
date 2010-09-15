@@ -44,7 +44,24 @@ def practice_detail(request, id = None):
     pass
 
 def person_list(request, club = None):
-    pass
+    if club:
+        club_obj = Club.objects.get(Slug = club)
+        active = club_obj.Members.filter(memberrecord__is_active = True).distinct()
+        in_active = club_obj.Members.filter(memberrecord__is_active = False).distinct()
+    else:
+        club_obj = None
+        active = Person.objects.filter(memberrecord__is_active = True).distinct()
+        in_active = Person.objects.filter(memberrecord__is_active = False).distinct()
+
+    active = active.annotate(PracticeNum = Count('practicerecord'))
+    info_dict = {
+        'active_members':active,
+        'inactive_members':in_active,
+        'club':club_obj
+    }
+
+    return render_to_response('Dojo/Person_object_list.html', info_dict,
+                              context_instance = RequestContext(request))
 
 def person_detail(request, club = None, id = None):
     pass

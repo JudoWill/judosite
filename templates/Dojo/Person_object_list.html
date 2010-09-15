@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% block subtitle %}{{ object.Name }} Detail{% endblock %}
 
+{% block subtitle %}{% if club_obj %}{{ club_obj.Name }}:{% endif %}Member List{% endblock %}
 {% block content %}
-<h4>Instructors</h4>
+<h4>Active Members</h4>
 <table width="70%">
 <thead>
-<th>Name</th>
+<th>Member Name</th>
 <th>Rank</th>
-<th>Classes Taught</th>
+<th># classes</th>
 </thead>
-{% for member in object.get_instructors %}
+{% for member in active_members %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
 <td>{{ member.Rank.latest.Rank }}</td>
@@ -18,17 +18,17 @@
 {% endfor %}
 </table>
 
-<h4>Students</h4>
+<h4>InActive Members</h4>
 <table width="70%">
 <thead>
-<th>Name</th>
+<th>Member Name</th>
 <th>Rank</th>
-<th>Classes Taken</th>
+<th># classes</th>
 </thead>
-{% for member in object.get_students %}
+{% for member in inactive_members %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
-<td>{{ member.Rank.latestlRank }}</td>
+<td>{{ member.Rank.latest.Rank }}</td>
 <td>{{ member.PracticeNum }}</td>
 </tr>
 {% endfor %}
