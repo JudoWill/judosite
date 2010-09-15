@@ -1,0 +1,54 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="{{ MEDIA_URL }}/blueprint/print.css" type="text/css" media="print">
+    <!--[if lt IE 8]><link rel="stylesheet" href="{{ MEDIA_URL }}/blueprint/ie.css" type="{{ MEDIA_URL }}/css" media="screen, projection"><![endif]-->
+    {% block extrahead %}
+    {% endblock %}
+    <title>Judo Website</title>
+</head>
+<body>
+    <div class="container">
+       <div class="span-24 last">
+        {% block headerinfo %}
+        <img src="{{ MEDIA_URL }}/logo.jpg" width="50" height="50">
+        <h1>Judo Attendance</h1>
+        {%  endblock %}
+        </div>
+        <div class="span-20">
+            <h2>{%  block subtitle %}Home{% endblock %}</h2>
+            {% block content %}
+            <p>This website is to facilitate the attendance taking at various judo clubs that I teach at.</p>
+	        {% endblock %}
+        </div>
+        <div class="span-4 last">
+            {% block navigation %}
+            <h2>Navigation</h2>
+            <ul>
+            <li><a href="{% url club_list  %}">Club List</a></li>
+            <li><a href="{% url person_list  %}">Person List</a></li>
+            </ul>
+
+            {% endblock %}
+			{% block login %}
+			{% if user.is_authenticated %}
+			<p>Logged in as: <i>{{ user.username }}</i></p>
+			<p><a href="{% url logout %}">logout</a></p>
+			{% else %}
+			<p>Not logged in. Go <a href="{% url login %}">here</a> to login.<p>
+			{% endif %}
+			{% endblock %}
+			<p><a href="{% url admin:index %}">Admin Site</a></p>
+        </div>
+        <div class="span-24 last">
+            {% block footer %}
+<p>Created by Will Dampier</p>
+<p>Sept 2010, wnd22 at drexel dot edu</p>
+            {% endblock %}
+        </div>
+       </div>
+</body>
+</html>
