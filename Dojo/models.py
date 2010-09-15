@@ -57,14 +57,15 @@ class Requirement(models.Model):
         return reverse('requirement_detail', self.Slug)
 
 class Practice(models.Model):
-    Club = models.ManyToManyField(Club)
+    Club = models.ForeignKey(Club, default = None, null = True)
     Date = models.DateField()
 
     def __unicode__(self):
         return '<%s:%s>' % (self.Club.latest('Name'), self.Date)
 
     def get_absolute_url(self):
-        return reverse('practice_detail', self.Club.Slug, self.id)
+        return reverse('practice_detail', args = (), kwargs = {'club':self.Club.Slug,
+                                                    'id':self.id})
 
 #Record models
 class RequirementRecord(PersonRecord):
