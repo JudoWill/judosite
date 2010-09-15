@@ -23,7 +23,7 @@ class Club(models.Model):
         return self.Slug
 
     def get_absolute_url(self):
-        return reverse('club_detail', self.Slug)
+        return reverse('club_detail', kwargs = {'slug': self.Slug})
 
 class Person(models.Model):
     Name = models.CharField(max_length = 255)
@@ -64,6 +64,7 @@ class Practice(models.Model):
         return '<%s:%s>' % (self.Club.latest('Name'), self.Date)
 
     def get_absolute_url(self):
+        print {'club':self.Club.Slug, 'id':self.id}
         return reverse('practice_detail', args = (), kwargs = {'club':self.Club.Slug,
                                                     'id':self.id})
 

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Club List{% endblock %}
+{% block content %}
+<table width="70%">
+<thead>
+<th>Club Name</th>
+<th>Size</th>
+</thead>
+{% for club in object_list %}
+<tr>
+<td><a href="{{ club.get_absolute_url }}">{{ club.Name }}</a></td>
+<td>{{ club.Members.count }}</td>
+</tr>
+{% endfor %}
+</table>
+
+
+
+
+{% endblock %}
