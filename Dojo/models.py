@@ -83,7 +83,7 @@ class Practice(models.Model):
         ordering = ['Club', 'Date']
 
     def __unicode__(self):
-        return '<%s:%s>' % (self.Club.latest('Name'), self.Date)
+        return '<%s:%s>' % (self.Club, self.Date)
 
     def get_absolute_url(self):
         print {'club':self.Club.Slug, 'id':self.id}

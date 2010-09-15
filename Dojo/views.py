@@ -39,7 +39,15 @@ def club_detail(request, club = None):
     return list_detail.object_detail(request, **info_dict)
 
 def practice_list(request, club = None):
-    pass
+
+    club = get_object_or_404(Club, Slug = club)
+    practices = club.practice_set.all().annotate(NumPeople = Count('person'))
+
+    return render_to_response('Dojo/Practice_object_list.html', locals(),
+                              context_instance = RequestContext(request))
+
+
+
 
 def practice_detail(request, id = None):
     pass

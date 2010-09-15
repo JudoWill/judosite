@@ -2,6 +2,8 @@
 {% block subtitle %}{{ object.Name }} Detail{% endblock %}
 
 {% block content %}
+<h4><a href="{% url practice_list club=object.Slug %}">Practice List</a></h4>
+
 <h4>Instructors</h4>
 <table width="70%">
 <thead>

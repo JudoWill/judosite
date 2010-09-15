@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block subtitle %}{{ club.Name }} Practice List{% endblock %}
+
+{% block content %}
+<table width ="50%">
+    <thead>
+    <th>Date</th>
+    <th># People</th>
+    </thead>
+    {% for practice in practices %}
+    <tr>
+        <td>{{ practice.Date }}</td>
+        <td>{{ practice.NumPeople }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}
