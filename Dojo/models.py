@@ -27,7 +27,7 @@ class Club(models.Model):
         return self.Slug
 
     def get_absolute_url(self):
-        return reverse('club_detail', kwargs = {'slug': self.Slug})
+        return reverse('club_detail', kwargs = {'club': self.Slug})
 
     def get_instructors(self):
         return self.Members.filter(is_instructor = True)
@@ -54,7 +54,7 @@ class Person(models.Model):
         return self.Name
 
     def get_absolute_url(self):
-        return reverse('person_detail', self.id)
+        return reverse('person_detail', kwargs = {'id':self.id})
 
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
@@ -71,7 +71,7 @@ class Requirement(models.Model):
         return self.Slug
 
     def get_absolute_url(self):
-        return reverse('requirement_detail', self.Slug)
+        return reverse('requirement_detail', kwargs = {'slug':self.Slug})
 
 class Practice(models.Model):
     Club = models.ForeignKey(Club, default = None, null = True)
