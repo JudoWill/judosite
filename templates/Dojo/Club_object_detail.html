@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ object.Name }} Detail{% endblock %}
+
+{% block content %}
+<h4>Instructors</h4>
+<table width="70%">
+<thead>
+<th>Name</th>
+<th>Rank</th>
+<th>Classes Taught</th>
+</thead>
+{% for member in object.get_instructors %}
+<tr>
+<td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
+<td>{{ member.Rank.Rank }}</td>
+<td>{{ member.PracticeNum }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<h4>Students</h4>
+<table width="70%">
+<thead>
+<th>Name</th>
+<th>Rank</th>
+<th>Classes Taken</th>
+</thead>
+{% for member in object.get_members %}
+<tr>
+<td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
+<td>{{ member.Rank.Rank }}</td>
+<td>{{ member.PracticeNum }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
