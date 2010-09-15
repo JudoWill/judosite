@@ -63,9 +63,32 @@ def person_list(request, club = None):
     return render_to_response('Dojo/Person_object_list.html', info_dict,
                               context_instance = RequestContext(request))
 
-def person_detail(request, club = None, id = None):
-    pass
+def person_detail(request, id = None):
 
+    person = get_object_or_404(Person, id = int(id))
+    clubs = person.club_set.all()
+    recent_rank = person.Rank.latest()
+
+    practice_count = person.PracticeAttended.count()
+    recent_practices = person.PracticeAttended.filter(practicerecord__DateOccured__gte = recent_rank.DateOccured)
+
+    require_records = []
+    for club in clubs:
+        for req in club.requirement_set.all():
+            records = RequirementRecord.objects.filter(Requirement = req,
+                                                       Person = person)
+            if records.count():
+                latest_req = records.latest()
+            else:
+                latest_req = None
+            require_records.append({
+                                    'requirement':req,
+                                    'latest':latest_req
+                                   })
+
+
+    return render_to_response('Dojo/Person_object_detail.html', locals(),
+                              context_instance = RequestContext(request))
     
 def requirement_detail(request, slug = None):
     pass

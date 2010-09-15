@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block subtitle %}{{ person.Name }} Detail{% endblock %}
+
+{% block content %}
+
+<h4>General</h4>
+<table width="50%">
+
+<tr><td>Current Rank</td><td>{{ recent_rank.Rank }}, Since {{ recent_rank.DateOccured }}</td></tr>
+<tr><td>Total Classes</td><td>{{ practice_count }}</td></tr>
+<tr><td>Classes Since Promotion</td><td>{{ recent_practices.count }}</td></tr>
+<tr><td>Clubs</td><td>{% spaceless %}
+    {% for club in clubs %}
+    <a href="{{ club.get_absolute_url }}">{{ club.Name }}</a>{% if not forloop.last  %}, {% endif %}
+    {% endfor %}
+    {% endspaceless %}</td></tr>
+</table>
+
+<h4>Requirements</h4>
+<table width ="50%">
+{% for req in require_records %}
+<tr>
+<td>{{ req.requirement.Name }}</td>
+<td>{% spaceless %}
+{% if latest %}{{ latest.DateOccured|timesince }}{% else %}Never{% endif %}
+{% endspaceless %}
+</td>
+</tr>
+{% endfor %}
+
+
+
+</table>
+
+
+{% endblock %}
