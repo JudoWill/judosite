@@ -22,12 +22,32 @@
 <tr>
 <td>{{ req.requirement.Name }}</td>
 <td>{% spaceless %}
-{% if latest %}{{ latest.DateOccured|timesince }}{% else %}Never{% endif %}
+{% if req.latest %}{{ req.latest.DateOccured|timesince }}{% else %}Never{% endif %}
 {% endspaceless %}
 </td>
 </tr>
 {% endfor %}
 
+    <form method="post" action="">
+        {{ formset.management_form }}        
+        {% csrf_token %}
+        <table>
+            <thead>
+            <th>Requirement</th>
+            <th>Date</th>
+            </thead>
+            {% for form in formset.forms %}
+            <tr>
+                {% for field in form %}
+                <td>{{ field.errors }}
+                {{ field }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" >
+    </form>
 
 
 </table>

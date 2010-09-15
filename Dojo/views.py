@@ -15,6 +15,7 @@ from operator import itemgetter
 from collections import defaultdict
 
 from models import *
+from forms import *
 
 def club_list(request):
 
@@ -69,6 +70,22 @@ def person_detail(request, id = None):
     clubs = person.club_set.all()
     recent_rank = person.Rank.latest()
 
+    ReqFormset = formset_factory(RequirementForm, extra = 5)
+
+    if request.method == 'POST':
+        formset = ReqFormset(request.POST)
+        if formset.is_valid():
+            for form in formset.forms:
+                if form.cleaned_data:
+                    req = RequirementRecord(Person = person,
+                                            DateOccured = form.cleaned_data['Date'],
+                                            Requirement = form.cleaned_data['Requirement'])
+                    req.save()
+    else:
+        formset = ReqFormset()
+        
+
+
     practice_count = person.PracticeAttended.count()
     recent_practices = person.PracticeAttended.filter(practicerecord__DateOccured__gte = recent_rank.DateOccured)
 
@@ -81,10 +98,12 @@ def person_detail(request, id = None):
                 latest_req = records.latest()
             else:
                 latest_req = None
+            print records, latest_req
             require_records.append({
                                     'requirement':req,
                                     'latest':latest_req
                                    })
+
 
 
     return render_to_response('Dojo/Person_object_detail.html', locals(),
