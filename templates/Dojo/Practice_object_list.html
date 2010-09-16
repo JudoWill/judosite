@@ -3,6 +3,12 @@
 {% block subtitle %}{{ club.Name }} Practice List{% endblock %}
 
 {% block content %}
+<form method="post" action="">
+    {%  csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" >
+</form>
+
 <table width ="50%">
     <thead>
     <th>Date</th>

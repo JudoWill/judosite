@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 {% block extrahead %}
 
 
@@ -45,3 +46,38 @@
 	});
 	</script>
 {% endblock %}
+{% block subtitle %}{{ club.Name }}: Practice Detail{% endblock %}
+{% block content %}
+<h4>Practice for {{ practice.Date }}</h4>
+<div class="ui-widget">
+<form method="post" action="">
+    {{ form.as_p }}
+    {%  csrf_token %}
+    <input type="submit" value="Submit">
+</form>
+</div>
+
+<h4>Instructors</h4>
+<ul>
+{% for person in practice.person_set.all%}
+{% if person.is_instructor %}
+<li><a href="{{ person.get_absolute_url }}">{{ person.Name }}</a></li>
+{% endif %}
+{% empty %}
+<p>No instructors listed!</p>
+{% endfor %}
+</ul>
+
+<h4>Students</h4>
+<ul>
+{% for person in practice.person_set.all%}
+{% if not person.is_instructor %}
+<li><a href="{{ person.get_absolute_url }}">{{ person.Name }}</a></li>
+{% endif %}
+{% empty %}
+<p>No students listed!</p>
+{% endfor %}
+</ul>
+
+{% endblock %}
+

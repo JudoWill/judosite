@@ -26,6 +26,8 @@ def club_list(request):
 
     return list_detail.object_list(request, **info_dict)
 
+def search(request):
+    print request.DATA
 
 def club_detail(request, club = None):
 
@@ -43,14 +45,44 @@ def practice_list(request, club = None):
     club = get_object_or_404(Club, Slug = club)
     practices = club.practice_set.all().annotate(NumPeople = Count('person'))
 
+    if request.method == 'POST':
+        form = PracticeModelForm(request.POST)
+        new_practice = form.save(commit = False)
+        new_practice.Club = club
+        new_practice.save()
+        return HttpResponseRedirect(new_practice.get_absolute_url())
+            
+    else:
+        form = PracticeModelForm()
+
     return render_to_response('Dojo/Practice_object_list.html', locals(),
                               context_instance = RequestContext(request))
 
 
+def practice_detail(request, club = None, id = None):
+
+    club = get_object_or_404(Club, Slug = club)
+    practice = Practice.objects.get(id = int(id))
+
+    if request.method == 'POST':
+        form = PracticeForm(request.POST)
+        print 'made in POST'
+    else:
+        form = PracticeForm()
+        print 'made in get'
 
 
-def practice_detail(request, id = None):
-    pass
+    print form.as_p()
+    info_dict = {
+        'split_val':';',
+        'autocomplete_field':'id_Students',
+        'form':form,
+        'club':club,
+        'practice':practice
+    }
+    print info_dict
+    return render_to_response('Dojo/Practice_object_detail.html', info_dict,
+                              context_instance = RequestContext(request))
 
 def person_list(request, club = None):
     if club:
