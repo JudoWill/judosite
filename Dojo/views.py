@@ -73,7 +73,12 @@ def practice_detail(request, club = None, id = None):
             if person is None:
                 person = Person(Name = form.cleaned_data['New_person'])
                 person.save()
-                messages.success(request, '%s was added succeessfuly.' % person.Name)
+                mr = MemberRecord(Person = person,
+                                  Club = club,
+                                  DateOccured = practice.Date)
+                messages.success(request, '%s was added succeessfuly to %s.' % (person.Name, club.Name))
+                
+
 
             pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
                                                          DateOccured = practice.Date,
