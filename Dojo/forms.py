@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from models import *
 
-from fields import StudentMultipleChoice
+from autocomplete import ModelChoiceField
 
 
 class RequirementForm(forms.Form):
@@ -10,7 +10,7 @@ class RequirementForm(forms.Form):
     Date = forms.DateField()
 
 class PracticeForm(forms.Form):
-    Students = StudentMultipleChoice()
+    Students = ModelChoiceField('student')
 
 
 class PracticeModelForm(ModelForm):
