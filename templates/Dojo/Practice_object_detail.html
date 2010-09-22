@@ -5,13 +5,14 @@
 {% block subtitle %}{{ club.Name }}: Practice Detail{% endblock %}
 {% block content %}
 <h4>Practice for {{ practice.Date }}</h4>
-<div class="ui-widget">
+
 <form method="post" action="">
-    {{ form.as_p }}
-    {%  csrf_token %}
     <input type="submit" value="Submit">
+    {{ form.as_ul }}
+    {%  csrf_token %}
+    
 </form>
-</div>
+
 
 <h4>Instructors</h4>
 <ul>

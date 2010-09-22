@@ -14,6 +14,8 @@ from copy import deepcopy
 from operator import itemgetter
 from collections import defaultdict
 
+from django.contrib import messages
+
 from models import *
 from forms import *
 
@@ -66,16 +68,30 @@ def practice_detail(request, club = None, id = None):
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
-        print 'made in POST'
+        if form.is_valid():
+            person = form.cleaned_data.get('Person', None)
+            if person is None:
+                person = Person(Name = form.cleaned_data['New_person'])
+                person.save()
+                messages.success(request, '%s was added succeessfuly.' % person.Name)
+
+            pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
+                                                         DateOccured = practice.Date,
+                                                         Person = person)
+               
+            if new_r:
+                messages.success(request, '%s was added succeessfuly to this practice.' % person.Name)
+
+            return HttpResponseRedirect(practice.get_absolute_url())
+
+
     else:
         form = PracticeForm()
         print 'made in get'
 
 
-    print form.as_p()
+
     info_dict = {
-        'split_val':';',
-        'autocomplete_field':'id_Students',
         'form':form,
         'club':club,
         'practice':practice

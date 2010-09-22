@@ -1,8 +1,8 @@
 from django.forms import ModelForm
 from django import forms
 from models import *
+from fields import StudentChoiceField
 
-from autocomplete import ModelChoiceField
 
 
 class RequirementForm(forms.Form):
@@ -10,8 +10,18 @@ class RequirementForm(forms.Form):
     Date = forms.DateField()
 
 class PracticeForm(forms.Form):
-    Students = ModelChoiceField('student')
+    New_person = forms.CharField(required = False)
+    Person = StudentChoiceField('student', required = False)
 
+    def clean(self):
+
+        np, op = self.cleaned_data['New_person'], self.cleaned_data['Person']
+        if np is None and op is None:
+            raise forms.ValidationError('You must specify either New Person or Old Person!')
+
+        return self.cleaned_data
+
+        
 
 class PracticeModelForm(ModelForm):
     class Meta:
