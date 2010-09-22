@@ -6,3 +6,4 @@ django-nose
 django-cpserver
 cherrypy
 pylint
+django-autocomplete
