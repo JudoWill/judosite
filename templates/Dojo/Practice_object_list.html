@@ -16,7 +16,7 @@
     </thead>
     {% for practice in practices %}
     <tr>
-        <td>{{ practice.Date }}</td>
+        <td><a href="{{ practice.get_absolute_url }}">{{ practice.Date }}</a></td>
         <td>{{ practice.NumPeople }}</td>
     </tr>
     {% endfor %}
