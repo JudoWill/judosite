@@ -134,9 +134,12 @@ def person_detail(request, id = None):
         recent_rank = None
 
     ReqFormset = formset_factory(RequirementForm, extra = 5)
+    
 
     if request.method == 'POST':
-        formset = ReqFormset(request.POST)
+        formset = ReqFormset(request.POST, prefix = 'req')
+        PersonInfo = PersonInfoForm(request.POST, prefix = 'info', 
+                                        instance = person)
         if formset.is_valid():
             for form in formset.forms:
                 if form.cleaned_data:
@@ -144,8 +147,11 @@ def person_detail(request, id = None):
                                             DateOccured = form.cleaned_data['Date'],
                                             Requirement = form.cleaned_data['Requirement'])
                     req.save()
+        if PersonInfo.is_valid():
+            PersonInfo.save()
     else:
-        formset = ReqFormset()
+        formset = ReqFormset(prefix = 'req')
+        PersonInfo = PersonInfoForm(instance = person, prefix = 'info')
         
 
 

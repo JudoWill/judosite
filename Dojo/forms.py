@@ -9,6 +9,11 @@ class RequirementForm(forms.Form):
     Requirement = forms.ModelChoiceField(queryset = Requirement.objects.all())
     Date = forms.DateField()
 
+class PersonInfoForm(ModelForm):
+    class Meta:
+        model = Person
+        
+
 class PracticeForm(forms.Form):
     New_person = forms.CharField(required = False)
     Person = StudentChoiceField('student', required = False)
