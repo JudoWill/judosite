@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{% block extrahead %}
+            
+    {{ form.media }}
+{% endblock %}
 {% block subtitle %}{{ club.Name }} Practice List{% endblock %}
 
 {% block content %}

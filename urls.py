@@ -34,8 +34,7 @@ urlpatterns += patterns('',
     url(r'login.html', 'django.contrib.auth.views.login', name = 'login'),
 	url(r'logout.html', 'django.contrib.auth.views.logout', name = 'logout'),
     (r'^Dojo/', include('Dojo.urls')),
-    url('^autocomplete/(\w+)/$', autocomplete, name='autocomplete'),    
-
+    url('^autocomplete/(\w+)/$', autocomplete, name='autocomplete'),
 )
 
 if settings.DEBUG:
