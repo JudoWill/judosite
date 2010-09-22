@@ -8,6 +8,7 @@ from django.db.models import Count
 from django.views.generic import list_detail
 from django.views.decorators.cache import cache_page, never_cache
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from csv import DictReader, DictWriter
 from StringIO import StringIO
 from copy import deepcopy
@@ -127,7 +128,10 @@ def person_detail(request, id = None):
 
     person = get_object_or_404(Person, id = int(id))
     clubs = person.club_set.all()
-    recent_rank = person.Rank.latest()
+    try:
+        recent_rank = person.Rank.latest()
+    except ObjectDoesNotExist:
+        recent_rank = None
 
     ReqFormset = formset_factory(RequirementForm, extra = 5)
 
@@ -146,8 +150,10 @@ def person_detail(request, id = None):
 
 
     practice_count = person.PracticeAttended.count()
-    recent_practices = person.PracticeAttended.filter(practicerecord__DateOccured__gte = recent_rank.DateOccured)
-
+    if recent_rank is not None:
+        recent_practices = person.PracticeAttended.filter(practicerecord__DateOccured__gte = recent_rank.DateOccured)
+    else:
+        recent_practices = person.PracticeAttended.all()
     require_records = []
     for club in clubs:
         for req in club.requirement_set.all():
