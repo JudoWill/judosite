@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% block extrahead %}
     {{ form.media }}
+
+        
 {% endblock %}
 {% block subtitle %}{{ club.Name }}: Practice Detail{% endblock %}
+{% block bodytag %}
+<body onload="document.personform.id_Person.focus()">
+{% endblock %}
 {% block content %}
 <h4>Practice for {{ practice.Date }}</h4>
 
-<form method="post" action="">
+<form id="personform" method="post" action="">
     <input type="submit" value="Submit">
     {{ form.as_ul }}
     {%  csrf_token %}
     
 </form>
-
+    <script>
+      document.getElementById('id_Person').focus();
+    </script>
 
 <h4>Instructors</h4>
 <ul>
@@ -35,6 +42,8 @@
 <p>No students listed!</p>
 {% endfor %}
 </ul>
+
+<p><a href="{% url practice_list club=club.Slug %}">Back to Practice List</a></p>
 
 {% endblock %}
 
