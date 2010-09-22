@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from models import *
 from fields import StudentChoiceField
-
+from django.contrib.admin.widgets import AdminDateWidget
 
 
 class RequirementForm(forms.Form):
@@ -24,6 +24,7 @@ class PracticeForm(forms.Form):
         
 
 class PracticeModelForm(ModelForm):
+    Date = forms.DateField(widget = AdminDateWidget)
     class Meta:
         model = Practice
         exclude = ('Club',)
