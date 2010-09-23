@@ -156,7 +156,7 @@ def person_detail(request, id = None):
             if new_p.Name != person.Name:
                 messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
             new_p.save()
-            return HttpResponseRedirect(reverse('practice_list'))   
+            return HttpResponseRedirect(reverse('person_list'))   
     else:
         formset = ReqFormset(prefix = 'req')
         PersonInfo = PersonInfoForm(instance = person, prefix = 'info')
