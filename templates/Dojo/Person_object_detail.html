@@ -30,7 +30,6 @@
 
     <form method="post" action="">
         {{ formset.management_form }}
-        {{ rank_formset.management_form }}
         {% csrf_token %}
         <table>
             <thead>
@@ -47,7 +46,8 @@
             </tr>
             {% endfor %}
         </table>
-		{{ rank_formset.as_ul }}
+
+		{{ rank_formset }}
 		{{ PersonInfo.as_ul }}
         <input type="submit" >
     </form>
