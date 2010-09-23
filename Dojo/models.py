@@ -39,7 +39,6 @@ class Person(models.Model):
     Name = models.CharField(max_length = 255)
     Email = models.EmailField(null = True, blank = True, default = None)
     is_instructor = models.BooleanField(default = False)
-    Rank = models.ManyToManyField('RankRecord')
     Requirements = models.ManyToManyField('Requirement',
                                           through = 'RequirementRecord')
     PracticeAttended = models.ManyToManyField('Practice',
@@ -126,7 +125,8 @@ class MemberRecord(PersonRecord):
         return self._base_unicode(self.Club)
 
 class RankRecord(models.Model):
-    DateOccured = models.DateField()
+    Person = models.ForeignKey(Person, default = None, null = True)
+	DateOccured = models.DateField()
     rank_choices = [('White', 'White'),
                     ('Yellow', 'Yellow'),
                     ('Orange', 'Orange'),
