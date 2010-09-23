@@ -143,7 +143,7 @@ def person_detail(request, id = None):
                                         instance = person)
         rank_formset = RankFormset(request.POST, instance = person, prefix = 'rank')
         
-        if formset.is_valid() and PersonInfo.is_valid() rank_formset.is_valid():
+        if formset.is_valid() and PersonInfo.is_valid() and rank_formset.is_valid():
             for form in formset.forms:
                 if form.cleaned_data:
                     req = RequirementRecord(Person = person,
