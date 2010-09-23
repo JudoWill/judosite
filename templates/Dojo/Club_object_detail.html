@@ -14,7 +14,7 @@
 {% for member in object.get_instructors %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
-<td>{{ member.Rank.latest.Rank }}</td>
+<td>{{ member.rankrecord_set.latest.Rank }}</td>
 <td>{{ member.PracticeNum }}</td>
 </tr>
 {% endfor %}
@@ -30,7 +30,7 @@
 {% for member in object.get_students %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
-<td>{{ member.Rank.latestlRank }}</td>
+<td>{{ member.rankrecord_set.latest.Rank }}</td>
 <td>{{ member.PracticeNum }}</td>
 </tr>
 {% endfor %}

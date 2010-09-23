@@ -130,7 +130,7 @@ def person_detail(request, id = None):
     person = get_object_or_404(Person, id = int(id))
     clubs = person.club_set.all()
     try:
-        recent_rank = person.rank_set.latest()
+        recent_rank = person.rankrecord_set.latest()
     except ObjectDoesNotExist:
         recent_rank = None
 
