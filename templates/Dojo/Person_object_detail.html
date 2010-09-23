@@ -47,22 +47,7 @@
             </tr>
             {% endfor %}
         </table>
-		<table>
-            <thead>
-            <th>Rank</th>
-            <th>Date</th>
-			<th>Delete</th>
-            </thead>
-            {% for form in rank_formset.forms %}
-            <tr>
-                {% for field in form %}
-                <td>{{ field.errors }}
-                {{ field }}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </table>
+		{{ rank_formset.as_ul }}
 		{{ PersonInfo.as_ul }}
         <input type="submit" >
     </form>
