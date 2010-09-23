@@ -29,7 +29,8 @@
 {% endfor %}
 
     <form method="post" action="">
-        {{ formset.management_form }}        
+        {{ formset.management_form }}
+        {{ rank_formset.management_form }}
         {% csrf_token %}
         <table>
             <thead>
@@ -37,6 +38,21 @@
             <th>Date</th>
             </thead>
             {% for form in formset.forms %}
+            <tr>
+                {% for field in form %}
+                <td>{{ field.errors }}
+                {{ field }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+		<table>
+            <thead>
+            <th>Rank</th>
+            <th>Date</th>
+            </thead>
+            {% for form in rank_formset.forms %}
             <tr>
                 {% for field in form %}
                 <td>{{ field.errors }}
