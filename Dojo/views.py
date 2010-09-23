@@ -135,7 +135,7 @@ def person_detail(request, id = None):
         recent_rank = None
 
     ReqFormset = formset_factory(RequirementForm, extra = 5)
-    RankFormset = inlineformset_factory(Person, RankRecord, extra = 2)
+    RankFormset = inlineformset_factory(Person, RankRecord, extra = 5)
 
     if request.method == 'POST':
         formset = ReqFormset(request.POST, prefix = 'req')
