@@ -47,8 +47,20 @@
             </tr>
             {% endfor %}
         </table>
-		    {% for form in rank_formset.forms %}
-                {{ form.as_ul }}
+		<table>
+            <thead>
+            <th>Date</th>
+            <th>Rank</th>
+			<th>Delete</th>
+            </thead>
+            {% for form in rank_formset.forms %}
+            <tr>
+                {% for field in form %}
+                <td>{{ field.errors }}
+                {{ field }}
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
         </table>
 		{{ PersonInfo.as_ul }}
