@@ -135,13 +135,15 @@ def person_detail(request, id = None):
         recent_rank = None
 
     ReqFormset = formset_factory(RequirementForm, extra = 5)
-    
+    RankFormset = inlineformset_factory(Person, RankRecord, extra = 2)
 
     if request.method == 'POST':
         formset = ReqFormset(request.POST, prefix = 'req')
         PersonInfo = PersonInfoForm(request.POST, prefix = 'info', 
                                         instance = person)
-        if formset.is_valid():
+        rank_formset = RankFormset(request.POST, instance = person, prefix = 'rank')
+        
+        if formset.is_valid() and PersonInfo.is_valid() rank_formset.is_valid():
             for form in formset.forms:
                 if form.cleaned_data:
                     req = RequirementRecord(Person = person,
@@ -149,17 +151,21 @@ def person_detail(request, id = None):
                                             Requirement = form.cleaned_data['Requirement'])
                     req.save()
                     messages.success(request, '%s was added succeessfuly for %s.' % (req.Requirement, person.Name))
-        if PersonInfo.is_valid():
-            new_p = PersonInfo.save(commit = False)
-            if new_p.Email != person.Email:
-                messages.success(request, '%s was added succeessfuly for %s.' % ('Email', person.Name))
-            if new_p.Name != person.Name:
-                messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
-            new_p.save()
-            return HttpResponseRedirect(reverse('person_list'))   
+            if PersonInfo.is_valid():
+                new_p = PersonInfo.save(commit = False)
+                if new_p.Email != person.Email:
+                    messages.success(request, '%s was added succeessfuly for %s.' % ('Email', person.Name))
+                if new_p.Name != person.Name:
+                    messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
+                new_p.save()
+            if rank_formset.is_valid():
+                messages.success(request, '%s was added succeessfuly for %s.' % ('Rank', person.Name))
+                rank_formset.save()
+                return HttpResponseRedirect(reverse('person_list'))   
     else:
         formset = ReqFormset(prefix = 'req')
         PersonInfo = PersonInfoForm(instance = person, prefix = 'info')
+        rank_formset = RankFormset(instance = person, prefix = 'rank')
         
 
 
