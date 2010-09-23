@@ -9,6 +9,7 @@ from django.views.generic import list_detail
 from django.views.decorators.cache import cache_page, never_cache
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from csv import DictReader, DictWriter
 from StringIO import StringIO
 from copy import deepcopy
@@ -147,8 +148,15 @@ def person_detail(request, id = None):
                                             DateOccured = form.cleaned_data['Date'],
                                             Requirement = form.cleaned_data['Requirement'])
                     req.save()
+                    messages.success(request, '%s was added succeessfuly for %s.' % (req.Requirement, person.Name))
         if PersonInfo.is_valid():
-            PersonInfo.save()
+            new_p = PersonInfo.save(commit = False)
+            if new_p.Email != person.Email:
+                messages.success(request, '%s was added succeessfuly for %s.' % ('Email', person.Name))
+            if new_p.Name != person.Name:
+                messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
+            new_p.save()
+            return HttpResponseRedirect(reverse('practice_list'))   
     else:
         formset = ReqFormset(prefix = 'req')
         PersonInfo = PersonInfoForm(instance = person, prefix = 'info')
