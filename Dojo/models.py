@@ -126,7 +126,7 @@ class MemberRecord(PersonRecord):
 
 class RankRecord(models.Model):
     Person = models.ForeignKey(Person, default = None, null = True)
-	DateOccured = models.DateField()
+    DateOccured = models.DateField()
     rank_choices = [('White', 'White'),
                     ('Yellow', 'Yellow'),
                     ('Orange', 'Orange'),
