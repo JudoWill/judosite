@@ -57,7 +57,7 @@ MEDIA_URL = '/judosite/site_media'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/judosite/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'm&0ve-u+3_k_lu%qe-hcj8*fvnh3h+od0(%a)u7#2oo-x73x)@'
@@ -101,8 +101,8 @@ INSTALLED_APPS = (
     'Technique'
 )
 
-LOGIN_REDIRECT_URL = '/index.html'
-LOGIN_URL = 'login.html'
+LOGIN_REDIRECT_URL = 'judosite/index.html'
+LOGIN_URL = 'judosite/login.html'
 HOME_DIR = os.path.realpath('')
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 

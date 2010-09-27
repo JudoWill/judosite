@@ -30,17 +30,17 @@ urlpatterns += patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
-    url(r'login.html', 'django.contrib.auth.views.login', name = 'login'),
-	url(r'logout.html', 'django.contrib.auth.views.logout', name = 'logout'),
-    (r'^Dojo/', include('Dojo.urls')),
-    url('^autocomplete/(\w+)/$', autocomplete, name='autocomplete'),
+    (r'^judosite/admin/', include(admin.site.urls)),
+    url(r'judosite/login.html', 'django.contrib.auth.views.login', name = 'login'),
+	url(r'judosite/logout.html', 'django.contrib.auth.views.logout', name = 'logout'),
+    (r'^judosite/Dojo/', include('Dojo.urls')),
+    url('^judosite/autocomplete/(\w+)/$', autocomplete, name='autocomplete'),
 )
 
 if settings.DEBUG:
     urlpatterns += patterns('',
-        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
+        (r'^judosite/site_media/(?P<path>.*)$', 'django.views.static.serve',
          {'document_root': settings.STATIC_FILE_ROOT}),
-        (r'^js/(?P<path>.*)$', 'django.views.static.serve',
+        (r'^judosite/js/(?P<path>.*)$', 'django.views.static.serve',
          {'document_root': settings.STATIC_FILE_ROOT+'/js/'})
     )
