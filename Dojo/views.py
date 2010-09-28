@@ -78,7 +78,10 @@ def practice_detail(request, club = None, id = None):
                 mr = MemberRecord(Person = person,
                                   Club = club,
                                   DateOccured = practice.Date)
-                messages.success(request, '%s was added succeessfuly to %s.' % (person.Name, club.Name))
+                mr.save()
+                rr = RankRecord(Rank = 'White', Person = person, DateOccured = practice.Date)
+                rr.save()
+                messages.success(request, '%s was added succeessfuly to %s as a White belt.' % (person.Name, club.Name))
 
             pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
                                                          DateOccured = practice.Date,
