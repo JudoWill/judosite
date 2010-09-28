@@ -67,7 +67,7 @@ def practice_detail(request, club = None, id = None):
 
     club = get_object_or_404(Club, Slug = club)
     practice = Practice.objects.get(id = int(id))
-
+    request.session['last_page'] = request.path
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         if form.is_valid():
@@ -118,6 +118,7 @@ def person_list(request, club = None):
         active = Person.objects.filter(memberrecord__is_active = True).distinct()
         in_active = Person.objects.filter(memberrecord__is_active = False).distinct()
 
+    request.session['last_page'] = request.path
     active = active.annotate(PracticeNum = Count('practicerecord'))
     info_dict = {
         'active_members':active,
@@ -164,7 +165,7 @@ def person_detail(request, id = None):
             if rank_formset.is_valid():
                 messages.success(request, '%s was added succeessfuly for %s.' % ('Rank', person.Name))
                 rank_formset.save()
-                return HttpResponseRedirect(reverse('person_list'))   
+                return HttpResponseRedirect(request.session.get('last_page', reverse('person_list')))
     else:
         formset = ReqFormset(prefix = 'req')
         PersonInfo = PersonInfoForm(instance = person, prefix = 'info')
