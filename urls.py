@@ -17,7 +17,7 @@ autocomplete.register(
 
 
 urlpatterns = patterns('django.views.generic.simple',
-                       (r'^home.html', 'direct_to_template', {'template': 'index.html'}),
+                       (r'^judosite/home.html', 'direct_to_template', {'template': 'index.html'}),
                        )
 
 
