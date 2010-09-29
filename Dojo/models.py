@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from datetime import date
+from utils import get_missing_reqs
 
 # Create your models here.
 
@@ -61,6 +63,10 @@ class Person(models.Model):
         else:
             return self.memberrecord_set.latest().is_active
 
+    def check_missing_reqs(self, clubs = None, date_check = date.today()):
+        return get_missing_reqs(self, clubs = clubs, date_check = date_check)
+
+
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
     Slug = models.SlugField()
@@ -104,7 +110,7 @@ class RequirementRecord(PersonRecord):
         ordering = ['Requirement', 'DateOccured']
 
     def __unicode__(self):
-        return self._base_unicode(self.Requirement)
+        return self._base_unicode(self.Re*quirement)
 
 
 class PracticeRecord(PersonRecord):

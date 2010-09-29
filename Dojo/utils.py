@@ -1,4 +1,4 @@
-from models import *
+from Dojo.models import *
 from django.db.models import Count
 from datetime import timedelta, date
 from django.contrib import messages
@@ -37,3 +37,19 @@ def update_player_active_qset(qset, club, days = 90, date_check = date.today(), 
 
 
 
+def get_missing_reqs(person, clubs = None, date_check = date.today()):
+
+    missing = []
+    if clubs is None:
+        clubs = person.club_set.all()
+    elif type(clubs) != type(Club.objects.all()): #only passed a single club
+        clubs = Club.objects.filter(id = clubs.id)
+
+    for club in clubs:
+        for req in club.requirement_set.all():
+            last_date = date_check - timedelta(req.Valid_for)
+            qset = person.requirementrecord_set.filter(DateOccured__gte = last_date,
+                                                       Requirement = req)
+            if not qset.exists():
+                missing.append(req)
+    return missing

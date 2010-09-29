@@ -8,13 +8,18 @@
 <th>Member Name</th>
 <th>Rank</th>
 <th># classes</th>
+<th>Missing Requirements!</th>
 </thead>
 {% for player in players %}
     {% if player.is_active %}
+    {% with player.check_missing_reqs as missing_recs %}
     <tr>
-<td><a href="{{ player.get_absolute_url }}">{{ player.Name }}</a></td>
+{% spaceless %}<td><a href="{{ player.get_absolute_url }}">{% if missing_recs %}<b>{{ player.Name }}</b>{% else %}{{ player.Name }}{% endif %}</a></td>{% endspaceless %}
 <td>{{ player.rankrecord_set.latest.Rank }}</td>
 <td>{{ player.PracticeNum }}</td>
+
+        <td>{{ missing_recs|join:", " }}</td>
+        {% endwith %}
 </tr>
     {% endif %}
 {% endfor %}
