@@ -55,6 +55,12 @@ class Person(models.Model):
     def get_absolute_url(self):
         return reverse('person_detail', kwargs = {'id':self.id})
 
+    def is_active(self, club = None):
+        if club:
+            return self.memberrecord_set.filter(Club = club).latest().is_active
+        else:
+            return self.memberrecord_set.latest().is_active
+
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
     Slug = models.SlugField()
