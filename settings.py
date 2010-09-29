@@ -101,7 +101,7 @@ INSTALLED_APPS = (
     'Technique'
 )
 
-LOGIN_REDIRECT_URL = 'judosite/index.html'
+LOGIN_REDIRECT_URL = 'home.html'
 LOGIN_URL = 'judosite/login.html'
 HOME_DIR = os.path.realpath('')
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
