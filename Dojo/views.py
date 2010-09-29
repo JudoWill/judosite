@@ -4,7 +4,7 @@ from django.forms.formsets import formset_factory
 from django.forms.models import inlineformset_factory, modelformset_factory
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.views.generic import list_detail
 from django.views.decorators.cache import cache_page, never_cache
 from django.http import HttpResponse, HttpResponseRedirect
@@ -47,7 +47,7 @@ def club_detail(request, club = None):
 def practice_list(request, club = None):
 
     club = get_object_or_404(Club, Slug = club)
-    practices = club.practice_set.all().annotate(NumPeople = Count('person'))
+    practices = club.practice_set.all().annotate(NumPeople = Count('person')).order_by('-Date')
 
     if request.method == 'POST':
         form = PracticeModelForm(request.POST)
@@ -111,18 +111,16 @@ def practice_detail(request, club = None, id = None):
 def person_list(request, club = None):
     if club:
         club_obj = Club.objects.get(Slug = club)
-        active = club_obj.Members.filter(memberrecord__is_active = True).distinct()
-        in_active = club_obj.Members.filter(memberrecord__is_active = False).distinct()
+        players = club_obj.Members.annotate(last_practice = Max('practicerecord__DateOccured'))
     else:
         club_obj = None
-        active = Person.objects.filter(memberrecord__is_active = True).distinct()
-        in_active = Person.objects.filter(memberrecord__is_active = False).distinct()
+        players = Person.objects.all().annotate(last_practice = Max('practicerecord__DateOccured'))
+
 
     request.session['last_page'] = request.path
-    active = active.annotate(PracticeNum = Count('practicerecord'))
+    players = players.annotate(PracticeNum = Count('practicerecord'))
     info_dict = {
-        'active_members':active,
-        'inactive_members':in_active,
+        'players':players,
         'club':club_obj
     }
 
