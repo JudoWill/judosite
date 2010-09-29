@@ -161,8 +161,12 @@ def person_detail(request, id = None):
                     messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
                 new_p.save()
             if rank_formset.is_valid():
-                messages.success(request, '%s was added succeessfuly for %s.' % ('Rank', person.Name))
-                rank_formset.save()
+                t = rank_formset.save(commit = False)
+                if t:
+                    for rank in t:
+                        rank.save()
+                    messages.success(request, '%s was added succeessfuly for %s.' % ('Rank', person.Name))
+
                 return HttpResponseRedirect(request.session.get('last_page', reverse('person_list')))
     else:
         formset = ReqFormset(prefix = 'req')
