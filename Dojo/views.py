@@ -15,6 +15,7 @@ from StringIO import StringIO
 from copy import deepcopy
 from operator import itemgetter
 from collections import defaultdict
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
@@ -62,7 +63,7 @@ def practice_list(request, club = None):
     return render_to_response('Dojo/Practice_object_list.html', locals(),
                               context_instance = RequestContext(request))
 
-
+@login_required
 def practice_detail(request, club = None, id = None):
 
     club = get_object_or_404(Club, Slug = club)
@@ -126,7 +127,7 @@ def person_list(request, club = None):
 
     return render_to_response('Dojo/Person_object_list.html', info_dict,
                               context_instance = RequestContext(request))
-
+@login_required
 def person_detail(request, id = None):
 
     person = get_object_or_404(Person, id = int(id))
