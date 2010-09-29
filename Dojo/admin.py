@@ -18,7 +18,11 @@ admin.site.register(Club)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Requirement)
 admin.site.register(Practice)
-admin.site.register(RequirementRecord)
+
+class RequirementRecordAdmin(admin.ModelAdmin):
+    list_display = ['Person', 'DateOccured', 'Requirement']
+
+admin.site.register(RequirementRecord, RequirementRecordAdmin)
 admin.site.register(PracticeRecord)
 admin.site.register(MemberRecord)
 admin.site.register(RankRecord)
