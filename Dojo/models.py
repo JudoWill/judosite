@@ -110,7 +110,7 @@ class RequirementRecord(PersonRecord):
         ordering = ['Requirement', 'DateOccured']
 
     def __unicode__(self):
-        return self._base_unicode(self.Re*quirement)
+        return self._base_unicode(self.Requirement)
 
 
 class PracticeRecord(PersonRecord):
