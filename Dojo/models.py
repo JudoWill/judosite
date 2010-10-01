@@ -47,6 +47,9 @@ class Person(models.Model):
                                               through = 'PracticeRecord')
     Picture = models.ImageField(upload_to = 'pictures', null = True,
                                 blank = True, default = None)
+    Gender = models.CharField(max_length = 10, default = 'Male',
+                              choices = (('Male', 'Male'),
+                                         ('Female', 'Female')))
 
     class Meta:
         ordering = ['Name']
