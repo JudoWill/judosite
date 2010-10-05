@@ -11,7 +11,7 @@
 <th>Rank</th>
 <th>Classes Taught</th>
 </thead>
-{% for member in object.get_instructors %}
+{% for member in object.get_instructors.distinct %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
 <td>{{ member.rankrecord_set.latest.Rank }}</td>
@@ -27,7 +27,7 @@
 <th>Rank</th>
 <th>Classes Taken</th>
 </thead>
-{% for member in object.get_students %}
+{% for member in object.get_students.distinct %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
 <td>{{ member.rankrecord_set.latest.Rank }}</td>
