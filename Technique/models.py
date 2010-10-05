@@ -7,3 +7,7 @@ class Technique(models.Model):
     Slug = models.SlugField()
 
     Practices = models.ManyToManyField(Practice)
+
+class TechniqueTag(models.Model):
+    Slug = models.SlugField()
+    Technique = models.ManyToManyField(Technique)
