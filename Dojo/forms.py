@@ -12,7 +12,7 @@ class RequirementForm(forms.Form):
 class PersonInfoForm(ModelForm):
     class Meta:
         model = Person
-        fields = ['Name', 'Email', 'is_instructor', 'Picture']
+        fields = ['Name', 'Email', 'is_instructor', 'Picture', 'Gender']
         
 
 class PracticeForm(forms.Form):

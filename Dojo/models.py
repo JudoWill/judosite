@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from datetime import date
+from utils import get_missing_reqs
 
 # Create your models here.
 
@@ -45,6 +47,9 @@ class Person(models.Model):
                                               through = 'PracticeRecord')
     Picture = models.ImageField(upload_to = 'pictures', null = True,
                                 blank = True, default = None)
+    Gender = models.CharField(max_length = 10, default = 'Male',
+                              choices = (('Male', 'Male'),
+                                         ('Female', 'Female')))
 
     class Meta:
         ordering = ['Name']
@@ -54,6 +59,16 @@ class Person(models.Model):
 
     def get_absolute_url(self):
         return reverse('person_detail', kwargs = {'id':self.id})
+
+    def is_active(self, club = None):
+        if club:
+            return self.memberrecord_set.filter(Club = club).latest().is_active
+        else:
+            return self.memberrecord_set.latest().is_active
+
+    def check_missing_reqs(self, clubs = None, date_check = date.today()):
+        return get_missing_reqs(self, clubs = clubs, date_check = date_check)
+
 
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)

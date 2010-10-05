@@ -4,7 +4,7 @@ from django.forms.formsets import formset_factory
 from django.forms.models import inlineformset_factory, modelformset_factory
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.views.generic import list_detail
 from django.views.decorators.cache import cache_page, never_cache
 from django.http import HttpResponse, HttpResponseRedirect
@@ -15,6 +15,7 @@ from StringIO import StringIO
 from copy import deepcopy
 from operator import itemgetter
 from collections import defaultdict
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
@@ -65,7 +66,7 @@ def check_club(request, club = None):
 def practice_list(request, club = None):
 
     club = get_object_or_404(Club, Slug = club)
-    practices = club.practice_set.all().annotate(NumPeople = Count('person'))
+    practices = club.practice_set.all().annotate(NumPeople = Count('person')).order_by('-Date')
 
     if request.method == 'POST':
         form = PracticeModelForm(request.POST)
@@ -80,12 +81,12 @@ def practice_list(request, club = None):
     return render_to_response('Dojo/Practice_object_list.html', locals(),
                               context_instance = RequestContext(request))
 
-
+@login_required
 def practice_detail(request, club = None, id = None):
 
     club = get_object_or_404(Club, Slug = club)
     practice = Practice.objects.get(id = int(id))
-
+    request.session['last_page'] = request.path
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         if form.is_valid():
@@ -96,7 +97,10 @@ def practice_detail(request, club = None, id = None):
                 mr = MemberRecord(Person = person,
                                   Club = club,
                                   DateOccured = practice.Date)
-                messages.success(request, '%s was added succeessfuly to %s.' % (person.Name, club.Name))
+                mr.save()
+                rr = RankRecord(Rank = 'White', Person = person, DateOccured = practice.Date)
+                rr.save()
+                messages.success(request, '%s was added succeessfuly to %s as a White belt.' % (person.Name, club.Name))
 
             pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
                                                          DateOccured = practice.Date,
@@ -126,23 +130,22 @@ def practice_detail(request, club = None, id = None):
 def person_list(request, club = None):
     if club:
         club_obj = Club.objects.get(Slug = club)
-        active = club_obj.Members.filter(memberrecord__is_active = True).distinct()
-        in_active = club_obj.Members.filter(memberrecord__is_active = False).distinct()
+        players = club_obj.Members.annotate(last_practice = Max('practicerecord__DateOccured'))
     else:
         club_obj = None
-        active = Person.objects.filter(memberrecord__is_active = True).distinct()
-        in_active = Person.objects.filter(memberrecord__is_active = False).distinct()
+        players = Person.objects.all().annotate(last_practice = Max('practicerecord__DateOccured'))
 
-    active = active.annotate(PracticeNum = Count('practicerecord'))
+
+    request.session['last_page'] = request.path
+    players = players.annotate(PracticeNum = Count('practicerecord'))
     info_dict = {
-        'active_members':active,
-        'inactive_members':in_active,
+        'players':players,
         'club':club_obj
     }
 
     return render_to_response('Dojo/Person_object_list.html', info_dict,
                               context_instance = RequestContext(request))
-
+@login_required
 def person_detail(request, id = None):
 
     person = get_object_or_404(Person, id = int(id))
@@ -177,9 +180,13 @@ def person_detail(request, id = None):
                     messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
                 new_p.save()
             if rank_formset.is_valid():
-                messages.success(request, '%s was added succeessfuly for %s.' % ('Rank', person.Name))
-                rank_formset.save()
-                return HttpResponseRedirect(reverse('person_list'))   
+                t = rank_formset.save(commit = False)
+                if t:
+                    for rank in t:
+                        rank.save()
+                    messages.success(request, '%s was added succeessfuly for %s.' % ('Rank', person.Name))
+
+                return HttpResponseRedirect(request.session.get('last_page', reverse('person_list')))
     else:
         formset = ReqFormset(prefix = 'req')
         PersonInfo = PersonInfoForm(instance = person, prefix = 'info')

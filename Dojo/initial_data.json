@@ -18,17 +18,7 @@
       "Name": "UPenn waiver", 
       "Slug": "upenn-waiver"
     }
-  }, 
-  {
-    "pk": 3, 
-    "model": "Dojo.requirement", 
-    "fields": {
-      "URL": "", 
-      "Valid_for": 365, 
-      "Name": "Drexel HeadMinder", 
-      "Slug": "drexel-headminder"
-    }
-  }, 
+  },
   {
     "pk": 4, 
     "model": "Dojo.requirement", 

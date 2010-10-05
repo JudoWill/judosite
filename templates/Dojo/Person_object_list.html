@@ -8,13 +8,20 @@
 <th>Member Name</th>
 <th>Rank</th>
 <th># classes</th>
+<th>Missing Requirements!</th>
 </thead>
-{% for member in active_members %}
-<tr>
-<td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
-<td>{{ member.rankrecord_set.latest.Rank }}</td>
-<td>{{ member.PracticeNum }}</td>
+{% for player in players %}
+    {% if player.is_active %}
+    {% with player.check_missing_reqs as missing_recs %}
+    <tr>
+{% spaceless %}<td><a href="{{ player.get_absolute_url }}">{% if missing_recs %}<b>{{ player.Name }}</b>{% else %}{{ player.Name }}{% endif %}</a></td>{% endspaceless %}
+<td>{{ player.rankrecord_set.latest.Rank }}</td>
+<td>{{ player.PracticeNum }}</td>
+
+        <td>{{ missing_recs|join:", " }}</td>
+        {% endwith %}
 </tr>
+    {% endif %}
 {% endfor %}
 </table>
 
@@ -24,13 +31,17 @@
 <th>Member Name</th>
 <th>Rank</th>
 <th># classes</th>
+<th>Length Gone</th>
 </thead>
-{% for member in inactive_members %}
-<tr>
-<td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
-<td>{{ member.rankrecord_set.latest.Rank }}</td>
-<td>{{ member.PracticeNum }}</td>
+{% for player in players|dictsortreversed:"last_practice" %}
+    {% if not player.is_active %}
+    <tr>
+<td><a href="{{ player.get_absolute_url }}">{{ player.Name }}</a></td>
+<td>{{ player.rankrecord_set.latest.Rank }}</td>
+<td>{{ player.PracticeNum }}</td>
+<td>{{ player.last_practice|timesince|truncatewords:2 }} ({{ player.last_practice|date:"SHORT_DATE_FORMAT" }})</td>
 </tr>
+    {% endif %}
 {% endfor %}
 </table>
 
