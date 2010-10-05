@@ -3,7 +3,7 @@
 
 {% block content %}
 <h4><a href="{% url practice_list club=object.Slug %}">Practice List</a></h4>
-
+<p>Click <a href = "{% url club_check club=object.Slug%}">here</a> to check club for missing or inactive members</p>
 <h4>Instructors</h4>
 <table width="70%">
 <thead>

@@ -20,6 +20,7 @@ from django.contrib import messages
 
 from models import *
 from forms import *
+from utils import update_player_active_qset
 
 def club_list(request):
 
@@ -43,6 +44,23 @@ def club_detail(request, club = None):
     }
 
     return list_detail.object_detail(request, **info_dict)
+
+def check_club(request, club = None):
+    club = get_object_or_404(Club, Slug = club)
+    members = set(club.Members.all())
+    
+    for practice in club.practice_set.order_by('Date'):
+        for pr in practice.practicerecord_set.all():
+            if pr.Person not in members:
+                mr = MemberRecord(Person = pr.Person, 
+                                    DateOccured = practice.Date,
+                                    Club = club)
+                mr.save()
+                messages.success(request, '%s was added succeessfuly to the club.' % pr.Person.Name)
+    update_player_active_qset(club.Members.all(), club, request = request)
+    
+    return HttpResponseRedirect(club.get_absolute_url())
+    
 
 def practice_list(request, club = None):
 
