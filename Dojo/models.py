@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count, Max
 from django.core.urlresolvers import reverse
 from datetime import date
 from utils import get_missing_reqs
@@ -32,10 +33,18 @@ class Club(models.Model):
         return reverse('club_detail', kwargs = {'club': self.Slug})
 
     def get_instructors(self):
-        return self.Members.filter(is_instructor = True)
+        qset = self.Members.filter(is_instructor = True)
+        qset = qset.annotate(last_practice = Max('practicerecord__DateOccured'),
+                                PracticeNum = Count('practicerecord'))
+
+        return qset
 
     def get_students(self):
-        return self.Members.filter(is_instructor = False)
+        qset = self.Members.filter(is_instructor = False)
+        qset = qset.annotate(last_practice = Max('practicerecord__DateOccured'),
+                                PracticeNum = Count('practicerecord'))
+
+        return qset
 
 class Person(models.Model):
     Name = models.CharField(max_length = 255)
