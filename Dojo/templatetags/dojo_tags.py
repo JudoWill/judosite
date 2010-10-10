@@ -1,7 +1,7 @@
 from Dojo.models import *
 from django import template
 from Dojo.utils import get_missing_reqs
-from datetime import timedelta
+from datetime import timedelta, date
 register = template.Library()
 
 
@@ -14,11 +14,11 @@ def num_classes_by_club(student, club):
 def missing_reqs_by_club(student, club):
     missing = []
     for req in club.requirement_set.all():
-        last_date = date_check - timedelta(req.Valid_for)
+        last_date = date.today() - timedelta(req.Valid_for)
         qset = student.requirementrecord_set.filter(DateOccured__gte = last_date,
                                                    Requirement = req)
         if not qset.exists():
-            missing.append(req)
+            missing.append(req.id)
     
     return Requirement.objects.filter(id__in = missing)
     
