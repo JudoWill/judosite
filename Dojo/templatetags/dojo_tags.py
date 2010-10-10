@@ -8,14 +8,20 @@ register = template.Library()
 @register.simple_tag
 def num_classes_by_club(student, club):
     qset = PracticeRecord.objects.filter(Person = student)
-    if club:
+    try:
         qset = qset.filter(Practice__Club = club)
+    except ValueError:
+        pass
     return qset.count()
                                         
 @register.inclusion_tag('Dojo/requirement_list_short.html')
 def missing_reqs_by_club(student, club):
     missing = []
-    for req in club.requirement_set.all():
+    try:
+        reqs = club.requirement_set.all()
+    except AttributeError:
+        reqs = Requirement.objects.filter(Club__in = student.club_set.all())
+    for req in reqs:
         last_date = date.today() - timedelta(req.Valid_for)
         qset = student.requirementrecord_set.filter(DateOccured__gte = last_date,
                                                    Requirement = req)
