@@ -38,7 +38,7 @@
 <td>{{ player.rankrecord_set.latest.Rank }}</td>
 <td>{% num_classes_by_club player object %}</td>
 
-        <td>{{ missing_recs|join:", " }}</td>
+        <td>{% missing_reqs_by_club player object %}</td>
         {% endwith %}
 </tr>
     {% endif %}
