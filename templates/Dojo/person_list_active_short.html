@@ -1,0 +1,19 @@
+{% load dojo_tags %}
+<table width="70%">
+<thead>
+<th>Name</th>
+<th>Rank</th>
+<th>Classes Taken</th>
+<th>Missing Requirements!</th>
+</thead>
+{% for person in person_list %}
+{% if person.is_active %}
+<tr>
+{% spaceless %}<td><a href="{{ player.get_absolute_url }}">{{ person.Name }}</a></td>{% endspaceless %}
+<td>{{ person.rankrecord_set.latest.Rank }}</td>
+<td>{% num_classes_by_club person club %}</td>
+<td>{% missing_reqs_by_club person club %}</td>        
+</tr>
+{% endif %}
+{% endfor %}
+</table>

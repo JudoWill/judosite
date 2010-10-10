@@ -7,8 +7,10 @@ register = template.Library()
 
 @register.simple_tag
 def num_classes_by_club(student, club):
-    return PracticeRecord.objects.filter(Person = student, 
-                                        Practice__Club = club).count()
+    qset = PracticeRecord.objects.filter(Person = student)
+    if club:
+        qset = qset.filter(Practice__Club = club)
+    return qset.count()
                                         
 @register.inclusion_tag('Dojo/requirement_list_short.html')
 def missing_reqs_by_club(student, club):
@@ -21,4 +23,11 @@ def missing_reqs_by_club(student, club):
             missing.append(req.id)
     
     return {'requirements':Requirement.objects.filter(id__in = missing)}
+
+@register.inclusion_tag('Dojo/person_list_active_short.html')
+def list_active_players(qset, club):
+    return {'person_list':qset, 'club':club}
     
+@register.inclusion_tag('Dojo/person_list_inactive_short.html')
+def list_inactive_players(qset, club):
+    return {'person_list':qset, 'club':club}

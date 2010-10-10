@@ -23,47 +23,9 @@
 </table>
 
 <h4>Active Students</h4>
-<table width="70%">
-<thead>
-<th>Name</th>
-<th>Rank</th>
-<th>Classes Taken</th>
-<th>Missing Requirements!</th>
-</thead>
-{% for player in object.get_students.distinct %}
-    {% if player.is_active %}
-    {% with player.check_missing_reqs as missing_recs %}
-    <tr>
-{% spaceless %}<td><a href="{{ player.get_absolute_url }}">{% if missing_recs %}<b>{{ player.Name }}</b>{% else %}{{ player.Name }}{% endif %}</a></td>{% endspaceless %}
-<td>{{ player.rankrecord_set.latest.Rank }}</td>
-<td>{% num_classes_by_club player object %}</td>
-
-        <td>{% missing_reqs_by_club player object %}</td>
-        {% endwith %}
-</tr>
-    {% endif %}
-{% endfor %}
-</table>
+{% list_active_players object.get_students.distinct object %}
 
 <h4>InActive Members</h4>
-<table width="70%">
-<thead>
-<th>Member Name</th>
-<th>Rank</th>
-<th># classes</th>
-<th>Length Gone</th>
-</thead>
-{% for player in object.get_students.distinct %}
-    {% if not player.is_active %}
-    <tr>
-<td><a href="{{ player.get_absolute_url }}">{{ player.Name }}</a></td>
-<td>{{ player.rankrecord_set.latest.Rank }}</td>
-<td>{{ player.PracticeNum }}</td>
-<td>{{ player.last_practice|timesince|truncatewords:2 }} ({{ player.last_practice|date:"SHORT_DATE_FORMAT" }})</td>
-</tr>
-    {% endif %}
-{% endfor %}
-</table>
-
+{% list_inactive_players object.get_students.distinct object %}
 
 {% endblock %}

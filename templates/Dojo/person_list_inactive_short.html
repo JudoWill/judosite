@@ -1,0 +1,19 @@
+{% load dojo_tags %}
+<table width="70%">
+<thead>
+<th>Member Name</th>
+<th>Rank</th>
+<th># classes</th>
+<th>Length Gone</th>
+</thead>
+{% for person in person_list %}
+{% if not person.is_active %}
+<tr>
+<td><a href="{{ player.get_absolute_url }}">{{ person.Name }}</a></td>
+<td>{{ person.rankrecord_set.latest.Rank }}</td>
+<td>{% num_classes_by_club person club %}</td>
+<td>{{ person.last_practice|timesince|truncatewords:2 }} ({{ person.last_practice|date:"SHORT_DATE_FORMAT" }})</td>
+</tr>
+{% endif %}
+{% endfor %}
+</table>
