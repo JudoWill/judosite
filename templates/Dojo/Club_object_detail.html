@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load dojo_tags %}
+
 {% block subtitle %}{{ object.Name }} Detail{% endblock %}
 
 {% block content %}
@@ -15,7 +17,7 @@
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
 <td>{{ member.rankrecord_set.latest.Rank }}</td>
-<td>{{ member.PracticeNum }}</td>
+<td>{% num_classes_by_club member object %}</td>
 </tr>
 {% endfor %}
 </table>
@@ -34,7 +36,7 @@
     <tr>
 {% spaceless %}<td><a href="{{ player.get_absolute_url }}">{% if missing_recs %}<b>{{ player.Name }}</b>{% else %}{{ player.Name }}{% endif %}</a></td>{% endspaceless %}
 <td>{{ player.rankrecord_set.latest.Rank }}</td>
-<td>{{ player.PracticeNum }}</td>
+<td>{% num_classes_by_club player object %}</td>
 
         <td>{{ missing_recs|join:", " }}</td>
         {% endwith %}
