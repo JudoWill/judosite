@@ -10,7 +10,7 @@ def num_classes_by_club(student, club):
     return PracticeRecord.objects.filter(Person = student, 
                                         Practice__Club = club).count()
                                         
-@register.simple_tag
+@register.inclusion_tag('Dojo/requirement_list_short.html')
 def missing_reqs_by_club(student, club):
     missing = []
     for req in club.requirement_set.all():
@@ -20,5 +20,5 @@ def missing_reqs_by_club(student, club):
         if not qset.exists():
             missing.append(req.id)
     
-    return Requirement.objects.filter(id__in = missing)
+    return {'requirements':Requirement.objects.filter(id__in = missing)}
     

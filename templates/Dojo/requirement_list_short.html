@@ -1,0 +1,7 @@
+{% spaceless %}
+{% for req in requirements %}
+{{req.Name}}{% if not forloop.last %},{% endif %}
+{% empty %}
+None
+{% endfor %}
+{% endspaceless %}
