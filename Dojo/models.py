@@ -3,6 +3,7 @@ from django.db.models import Count, Max
 from django.core.urlresolvers import reverse
 from datetime import date
 from utils import get_missing_reqs
+from managers import *
 
 # Create your models here.
 
@@ -59,7 +60,7 @@ class Person(models.Model):
     Gender = models.CharField(max_length = 10, default = 'Male',
                               choices = (('Male', 'Male'),
                                          ('Female', 'Female')))
-
+    objects = PersonManager()
     class Meta:
         ordering = ['Name']
 
