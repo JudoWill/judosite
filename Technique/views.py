@@ -10,5 +10,12 @@ from Technique.models import *
 
 def technique_list(request):
 
-    pass
+    info_dict = {
+        'queryset':Technique.objects.all(),
+        'template_name':'Technique/Technique_object_list.html'
+    }
 
+    return list_detail.object_list(request, **info_dict)
+
+def technique_detail(request, technique = None):
+    pass

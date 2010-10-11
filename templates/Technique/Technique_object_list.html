@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Technique List{% endblock %}
+{% block content %}
+<table width="70%">
+<thead>
+<th>Technique Name</th>
+<th># Classes</th>
+<th>Last Taught</th>
+</thead>
+{% for technique in object_list %}
+<tr>
+<td><a href="{{ technique.get_absolute_url }}">{{ technique.Name }}</a></td>
+<td>{{ technique.num_classes }}</td>
+<td>{{ technique.last_taught }}</td>
+</tr>
+{% endfor %}
+</table>
+
+
+
+
+{% endblock %}
