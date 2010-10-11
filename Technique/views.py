@@ -43,7 +43,24 @@ def technique_detail(request, technique = None):
                                 context_instance = RequestContext(request))
                                 
 def tag_list(request):
-    pass
+    
+    if request.method == 'POST':
+        form = TechniqueTagForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit = False)
+            obj.save()
+            return HttpResponseRedirect(obj.get_absolute_url())
+    else:
+        form = TechniqueTagForm()
+        
+    
+    info_dict = {
+        'queryset':TechniqueTag.objects.all()
+        'form':form
+    }
+    
+    return render_to_response('Technique/Tag_object_list.html', info_dict,
+                                context_instance = RequestContext(request))
     
 def tag_detail(request, tag = None):
     pass

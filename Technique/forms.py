@@ -14,3 +14,4 @@ class TechniqueTagForm(ModelForm):
     
     class Meta:
         model = TechniqueTag
+        exclude = ['Technique']

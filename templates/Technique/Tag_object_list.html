@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Technique List{% endblock %}
+{% block content %}
+<form method="post" action="">
+    {%  csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" >
+</form>
+<table width="70%">
+<thead>
+<th>Technique Name</th>
+<th># Classes</th>
+<th>Last Taught</th>
+</thead>
+{% for tag in queryset %}
+<tr>
+<td><a href="{{ tag.get_absolute_url }}">{{ tag.Name }}</a></td>
+<td>{{ tag.num_classes }}</td>
+<td>{{ tag.last_taught }}</td>
+</tr>
+{% endfor %}
+</table>
+
+
+
+
+{% endblock %}

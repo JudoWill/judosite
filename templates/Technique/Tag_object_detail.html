@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+
+{% block subtitle %}{{tag.Slug}} : Detail{% endblock %}
+
+{% block content %}
+<form method="post" action="">
+    {%  csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" >
+</form>
+
+<h4>Techniques</h4>
+<ul>
+{% for technique in tag.technique_set.all %}
+<li><a href="{{technique.get_absolute_url}}">{{technique.Name}}</a></li>
+{% endfor %}	
+</ul>
+	
+	
+	
+
+
+{% endblock %}
