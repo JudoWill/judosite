@@ -7,6 +7,7 @@ class TechniqueForm(ModelForm):
     
     class Meta:
         model = Technique
+        exclude = ['Practices']
 
         
 class TechniqueTagForm(ModelForm):
