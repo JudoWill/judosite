@@ -2,6 +2,7 @@ from Dojo.models import *
 from django import template
 from Dojo.utils import get_missing_reqs
 from datetime import timedelta, date
+import re
 register = template.Library()
 
 
@@ -13,7 +14,7 @@ def num_classes_by_club(student, club):
     except ValueError:
         pass
     return qset.count()
-                                        
+
 @register.inclusion_tag('Dojo/requirement_list_short.html')
 def missing_reqs_by_club(student, club):
     missing = []
@@ -37,3 +38,4 @@ def list_active_players(qset, club):
 @register.inclusion_tag('Dojo/person_list_inactive_short.html')
 def list_inactive_players(qset, club):
     return {'person_list':qset, 'club':club}
+    
