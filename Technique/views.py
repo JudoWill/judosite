@@ -6,16 +6,36 @@ from django.views.generic import list_detail
 
 from Dojo.models import *
 from Technique.models import *
+from forms import *
 
 
 def technique_list(request):
-
+    
+    if request.method == 'POST':
+        form = TechniqueForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit = False)
+            obj.save()
+            return HttpResponseRedirect(obj.get_absolute_url())
+    else:
+        form = TechniqueForm()
+    
     info_dict = {
         'queryset':Technique.objects.all(),
-        'template_name':'Technique/Technique_object_list.html'
+        'form':form
     }
 
-    return list_detail.object_list(request, **info_dict)
-
+    return render_to_response('Technique/Technique_object_list.html', info_dict,
+                                context_instance = RequestContext(request))
+    
+    
+    
 def technique_detail(request, technique = None):
-    pass
+    tech_obj = get_object_or_404(Technique, Slug = technique)
+    
+    info_dict = {
+        'technique':tech_obj
+    }
+    
+    return render_to_response('Technique/Technique_object_detail.html', info_dict,
+                                context_instance = RequestContext(request))

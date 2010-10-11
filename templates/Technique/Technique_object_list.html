@@ -2,13 +2,18 @@
 
 {% block subtitle %}Technique List{% endblock %}
 {% block content %}
+<form method="post" action="">
+    {%  csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" >
+</form>
 <table width="70%">
 <thead>
 <th>Technique Name</th>
 <th># Classes</th>
 <th>Last Taught</th>
 </thead>
-{% for technique in object_list %}
+{% for technique in queryset %}
 <tr>
 <td><a href="{{ technique.get_absolute_url }}">{{ technique.Name }}</a></td>
 <td>{{ technique.num_classes }}</td>
