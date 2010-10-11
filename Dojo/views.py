@@ -13,7 +13,7 @@ from django.core.urlresolvers import reverse
 from csv import DictReader, DictWriter
 from StringIO import StringIO
 from copy import deepcopy
-from operator import itemgetter
+from operator import itemgetter, attrgetter
 from collections import defaultdict
 from django.contrib.auth.decorators import login_required
 
@@ -130,16 +130,11 @@ def practice_detail(request, club = None, id = None):
 def person_list(request, club = None):
     if club:
         club_obj = Club.objects.get(Slug = club)
-        players = club_obj.Members.annotate(last_practice = Max('practicerecord__DateOccured'))
     else:
         club_obj = None
-        players = Person.objects.all().annotate(last_practice = Max('practicerecord__DateOccured'))
-
 
     request.session['last_page'] = request.path
-    players = players.annotate(PracticeNum = Count('practicerecord'))
     info_dict = {
-        'players':players,
         'club':club_obj
     }
 
@@ -174,10 +169,7 @@ def person_detail(request, id = None):
                     messages.success(request, '%s was added succeessfuly for %s.' % (req.Requirement, person.Name))
             if PersonInfo.is_valid():
                 new_p = PersonInfo.save(commit = False)
-                if new_p.Email != person.Email:
-                    messages.success(request, '%s was added succeessfuly for %s.' % ('Email', person.Name))
-                if new_p.Name != person.Name:
-                    messages.success(request, '%s was added succeessfuly for %s.' % ('Name', person.Name))
+                make_messages(request, person, new_p, ('Name', 'Email'))
                 new_p.save()
             if rank_formset.is_valid():
                 t = rank_formset.save(commit = False)
@@ -224,3 +216,10 @@ def requirement_detail(request, slug = None):
 
 def requirement_list(request):
     pass
+
+
+def make_messages(request, oitem, nitem, fields):
+    func = attrgetter(*fields)
+    for field, ores, nres in zip(fields, func(oitem), func(nitem)):
+        if ores != nres:
+            request.success('Changed %s to %s' % (field, nres))
