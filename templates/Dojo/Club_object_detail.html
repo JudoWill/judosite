@@ -23,9 +23,9 @@
 </table>
 
 <h4>Active Students</h4>
-{% list_active_players object.get_students.distinct object %}
+{% list_active_players object %}
 
 <h4>InActive Members</h4>
-{% list_inactive_players object.get_students.distinct object %}
+{% list_inactive_players object %}
 
 {% endblock %}

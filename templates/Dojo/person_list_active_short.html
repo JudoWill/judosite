@@ -11,7 +11,7 @@
 <tr>
 {% spaceless %}<td><a href="{{ person.get_absolute_url }}">{{ person.Name }}</a></td>{% endspaceless %}
 <td>{{ person.rankrecord_set.latest.Rank }}</td>
-<td>{% num_classes_by_club person club %}</td>
+<td>{{ person.num_practice }}</td>
 <td>{% missing_reqs_by_club person club %}</td>        
 </tr>
 {% endif %}

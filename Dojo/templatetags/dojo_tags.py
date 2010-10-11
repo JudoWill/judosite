@@ -32,10 +32,18 @@ def missing_reqs_by_club(student, club):
     return {'requirements':Requirement.objects.filter(id__in = missing)}
 
 @register.inclusion_tag('Dojo/person_list_active_short.html')
-def list_active_players(qset, club):
+def list_active_players(club):
+    if club == 'None':
+        club = None
+    qset = Person.objects.club_qset(club)
+
     return {'person_list':qset, 'club':club}
     
 @register.inclusion_tag('Dojo/person_list_inactive_short.html')
-def list_inactive_players(qset, club):
+def list_inactive_players(club):
+    if club == 'None':
+        club = None
+    qset = Person.objects.club_qset(club).order_by('-last_practice')
+
     return {'person_list':qset, 'club':club}
     

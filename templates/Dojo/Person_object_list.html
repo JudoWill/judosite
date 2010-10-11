@@ -4,9 +4,9 @@
 {% block subtitle %}{% if club_obj %}{{ club_obj.Name }}:{% endif %}Member List{% endblock %}
 {% block content %}
 <h4>Active Members</h4>
-{% list_active_players players "None" %}
+{% list_active_players "None" %}
 
 <h4>InActive Members</h4>
-{% list_inactive_players players "None" %}
+{% list_inactive_players "None" %}
 
 {% endblock %}

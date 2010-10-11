@@ -11,7 +11,7 @@
 <tr>
 <td><a href="{{ person.get_absolute_url }}">{{ person.Name }}</a></td>
 <td>{{ person.rankrecord_set.latest.Rank }}</td>
-<td>{% num_classes_by_club person club %}</td>
+<td>{{ person.num_practice }}</td>
 <td>{{ person.last_practice|timesince|truncatewords:2 }} ({{ person.last_practice|date:"SHORT_DATE_FORMAT" }})</td>
 </tr>
 {% endif %}
