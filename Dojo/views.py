@@ -169,7 +169,7 @@ def person_detail(request, id = None):
                     messages.success(request, '%s was added succeessfuly for %s.' % (req.Requirement, person.Name))
             if PersonInfo.is_valid():
                 new_p = PersonInfo.save(commit = False)
-                make_messages(request, person, new_p, ('Name', 'Email'))
+                make_messages(request, person, new_p, ('Name', 'Email', 'is_instructor'))
                 new_p.save()
             if rank_formset.is_valid():
                 t = rank_formset.save(commit = False)
