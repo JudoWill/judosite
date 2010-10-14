@@ -55,7 +55,7 @@ def tag_list(request):
         
     
     info_dict = {
-        'queryset':TechniqueTag.objects.all()
+        'queryset':TechniqueTag.objects.all(),
         'form':form
     }
     
