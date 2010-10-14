@@ -5,6 +5,8 @@ from django.db.models import Count, Max
 from django.views.generic import list_detail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
+from django.contrib import messages
 
 from Dojo.models import *
 from Technique.models import *
@@ -34,9 +36,22 @@ def technique_list(request):
     
 def technique_detail(request, technique = None):
     tech_obj = get_object_or_404(Technique, Slug = technique)
-    
+    if request.method == 'POST':
+        add_tag_form = AddTagForm(request.POST)
+        if add_tag_form.is_valid():
+            tag = add_tag_form.cleaned_data.get('Tag', None)
+            if tag is None:
+                tag = TechniqueTag(Slug = slugify(add_tag_form.cleaned_data['New_Tag']))
+                tag.save()
+            tag.Technique.add(tech_obj)
+            messages.success(request, '%s was tagged with %s.' % (tech_obj.Name, tag.Slug))
+            return HttpResponseRedirect(tech_obj.get_absolute_url())
+    else:
+        add_tag_form = AddTagForm()
+
     info_dict = {
-        'technique':tech_obj
+        'technique':tech_obj,
+        'add_tag_form':add_tag_form
     }
     
     return render_to_response('Technique/Technique_object_detail.html', info_dict,

@@ -8,13 +8,19 @@ class Technique(models.Model):
     Slug = models.SlugField()
 
     Practices = models.ManyToManyField(Practice)
-    
+
+    def __unicode__(self):
+        return self.Name
+
     def get_absolute_url(self):
         return reverse('technique_detail', kwargs = {'technique':self.Slug})
 
 class TechniqueTag(models.Model):
     Slug = models.SlugField()
     Technique = models.ManyToManyField(Technique)
-    
+
+    def __unicode__(self):
+        return self.Slug
+
     def get_absolute_url(self):
         return reverse('tag_detail', kwargs = {'tag':self.Slug})

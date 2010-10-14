@@ -6,6 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from Dojo.models import Person
+from Technique.models import Technique, TechniqueTag
 from autocomplete.views import autocomplete
 
 autocomplete.register(
@@ -14,7 +15,18 @@ autocomplete.register(
         fields = ('Name', ),
         limit = 5,
     )
-
+autocomplete.register(
+    id = 'technique',
+    queryset = Technique.objects.all(),
+    fields = ('Name', ),
+    limit = 5
+)
+autocomplete.register(
+    id = 'techniquetag',
+    queryset = TechniqueTag.objects.all(),
+    fields = ('Slug', ),
+    limit = 5
+)
 
 urlpatterns = patterns('django.views.generic.simple',
                        (r'^judosite/home.html', 'direct_to_template', {'template': 'index.html'}),

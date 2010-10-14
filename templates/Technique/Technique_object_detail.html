@@ -1,12 +1,27 @@
 {% extends "base.html" %}
+{% block extrahead %}
+    {{ add_tag_form.media }}
 
+
+{% endblock %}
 
 {% block subtitle %}{{technique.Name}} : Detail{% endblock %}
 
 {% block content %}
 
+<form id="tagform" method="post" action="">
+<input type="submit" value="Submit">
+    {{ add_tag_form.as_ul }}
+    {%  csrf_token %}
 
+</form>
 
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
 <h4>Technique Tags</h4>
 <ul>
 {% for tag in technique.techniquetag_set.all %}
