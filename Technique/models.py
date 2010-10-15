@@ -2,6 +2,7 @@ from django.db import models
 from Dojo.models import Practice
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+from managers import *
 
 # Create your models here.
 class Technique(models.Model):
@@ -9,6 +10,7 @@ class Technique(models.Model):
     Slug = models.SlugField(editable = False)
 
     Practices = models.ManyToManyField(Practice)
+    objects = TechniqueManager()
 
     def save(self, *args, **kwargs):
         self.Slug = slugify(self.Name)
