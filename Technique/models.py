@@ -16,6 +16,7 @@ class Technique(models.Model):
         return reverse('technique_detail', kwargs = {'technique':self.Slug})
 
 class TechniqueTag(models.Model):
+    Name = models.CharField(max_length = 255)
     Slug = models.SlugField()
     Technique = models.ManyToManyField(Technique)
 
