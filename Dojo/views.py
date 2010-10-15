@@ -92,7 +92,7 @@ def practice_detail(request, club = None, id = None):
         form = PracticeForm(request.POST)
         if form.is_valid():
             person = form.cleaned_data.get('Person', None)
-            if person is None and form.cleaned_data['New_person'] is not None:
+            if person is None and len(form.cleaned_data['New_person']) > 0:
                 person = Person(Name = form.cleaned_data['New_person'])
                 person.save()
                 mr = MemberRecord(Person = person,
@@ -107,13 +107,16 @@ def practice_detail(request, club = None, id = None):
                 pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
                                                             DateOccured = practice.Date,
                                                             Person = person)
-            if new_r:
-                messages.success(request, '%s was added succeessfuly to this practice.' % person.Name)
+                if new_r:
+                    messages.success(request, '%s was added succeessfuly to this practice.' % person.Name)
             
             tech = form.cleaned_data.get('Technique', None)
-            if tech is None and form.cleaned_data['New_technique'] is not None:
+            if tech is None and len(form.cleaned_data['New_technique']) > 0:
+                print 'form', form.cleaned_data['New_technique'] is None
                 tech = Technique(Name = form.cleaned_data['New_technique'])
                 tech.save()
+            if tech:
+                practice.technique_set.add(tech)
                 messages.success(request, 'Sucessfully added the %s Technique' % tech.Name)
                
             
