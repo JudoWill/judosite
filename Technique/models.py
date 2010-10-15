@@ -5,9 +5,13 @@ from django.core.urlresolvers import reverse
 # Create your models here.
 class Technique(models.Model):
     Name = models.CharField(max_length = 255)
-    Slug = models.SlugField()
+    Slug = models.SlugField(editable = False)
 
     Practices = models.ManyToManyField(Practice)
+
+    def save(self, *args, **kwargs):
+        self.Slug = slugify(self.Name)
+        super(Technique, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.Name
@@ -17,8 +21,13 @@ class Technique(models.Model):
 
 class TechniqueTag(models.Model):
     Name = models.CharField(max_length = 255)
-    Slug = models.SlugField()
+    Slug = models.SlugField(editable = False)
     Technique = models.ManyToManyField(Technique)
+
+    def save(self, *args, **kwargs):
+        self.Slug = slugify(self.Name)
+        super(TechniqueTag, self).save(*args, **kwargs)
+
 
     def __unicode__(self):
         return self.Slug
