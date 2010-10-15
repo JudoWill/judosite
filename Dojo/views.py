@@ -19,7 +19,8 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
-from models import *
+from Dojo.models import *
+from Technique.models import *
 from forms import *
 from utils import update_player_active_qset
 
@@ -91,7 +92,7 @@ def practice_detail(request, club = None, id = None):
         form = PracticeForm(request.POST)
         if form.is_valid():
             person = form.cleaned_data.get('Person', None)
-            if person is None:
+            if person is None and form.cleaned_data['New_person'] is not None:
                 person = Person(Name = form.cleaned_data['New_person'])
                 person.save()
                 mr = MemberRecord(Person = person,
@@ -101,13 +102,21 @@ def practice_detail(request, club = None, id = None):
                 rr = RankRecord(Rank = 'White', Person = person, DateOccured = practice.Date)
                 rr.save()
                 messages.success(request, '%s was added succeessfuly to %s as a White belt.' % (person.Name, club.Name))
+            if person is not None:
 
-            pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
-                                                         DateOccured = practice.Date,
-                                                         Person = person)
-               
+                pr, new_r = PracticeRecord.objects.get_or_create(Practice = practice,
+                                                            DateOccured = practice.Date,
+                                                            Person = person)
             if new_r:
                 messages.success(request, '%s was added succeessfuly to this practice.' % person.Name)
+            
+            tech = form.cleaned_data.get('Technique', None)
+            if tech is None and form.cleaned_data['New_technique'] is not None:
+                tech = Technique(Name = form.cleaned_data['New_technique'])
+                tech.save()
+                messages.success(request, 'Sucessfully added the %s Technique' % tech.Name)
+               
+            
 
             return HttpResponseRedirect(practice.get_absolute_url())
 

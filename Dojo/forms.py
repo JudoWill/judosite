@@ -1,7 +1,8 @@
 from django.forms import ModelForm
 from django import forms
 from models import *
-from fields import StudentChoiceField
+from fields import LocalModelChoiceField
+from autocomplete.fields import ModelChoiceField
 from django.contrib.admin.widgets import AdminDateWidget
 
 
@@ -16,15 +17,17 @@ class PersonInfoForm(ModelForm):
         
 
 class PracticeForm(forms.Form):
+    Person = LocalModelChoiceField('student', required = False)
     New_person = forms.CharField(required = False)
-    Person = StudentChoiceField('student', required = False)
+    Technique = LocalModelChoiceField('technique', required = False)
+    New_technique = forms.CharField(required = False)
+    
 
     def clean(self):
-
-        np, op = self.cleaned_data['New_person'], self.cleaned_data['Person']
-        if np is None and op is None:
-            raise forms.ValidationError('You must specify either New Person or Old Person!')
-
+        
+        if not any(self.cleaned_data.values()):
+            raise forms.ValidationError('You must have at least 1 field!')
+            
         return self.cleaned_data
 
         

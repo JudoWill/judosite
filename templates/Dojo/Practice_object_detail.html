@@ -13,7 +13,20 @@
 
 <form id="personform" method="post" action="">
     <input type="submit" value="Submit">
-    {{ form.as_ul }}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }}: {{ field }}
+        </div>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p></p>
+    {% endfor %}
+
     {%  csrf_token %}
     
 </form>
@@ -41,6 +54,15 @@
 {% empty %}
 <p>No students listed!</p>
 {% endfor %}
+</ul>
+
+<h4>Techniques</h4>
+<ul>
+{% for tech in practice.technique_set.all %}
+<li><a href="{{ tech.get_absolute_url }}">{{ tech.Name }}</a></li>
+{% empty %}
+<li>No techniques listed!</li>
+{% endfor %}	
 </ul>
 
 <p><a href="{% url practice_list club=club.Slug %}">Back to Practice List</a></p>
