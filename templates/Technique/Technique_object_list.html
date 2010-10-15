@@ -6,6 +6,9 @@
 {% endblock %}
 {% block subtitle %}Technique List{% endblock %}
 {% block content %}
+{% if club %}
+<h4>for club {{ club.Name }}</h4>
+{% endif %}
 <form method="post" action="">
     {%  csrf_token %}
     {{ form.as_table }}
@@ -14,14 +17,21 @@
 <table width="70%">
 <thead>
 <th>Technique Name</th>
+<th>Technique Tags</th>
 <th># Classes</th>
 <th>Last Taught</th>
 </thead>
 {% for technique in queryset %}
 <tr>
 <td><a href="{{ technique.get_absolute_url }}">{{ technique.Name }}</a></td>
-<td>{{ technique.num_classes }}</td>
-<td>{{ technique.last_taught }}</td>
+    {% spaceless %}
+    <td>{% for tag in technique.techniquetag_set.all %}
+    <a href="{{ tag.get_absolue_url }}">{{ tag.Name }}</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    </td>
+{% endspaceless %}
+<td>{{ technique.num_practice }}</td>
+<td>{{ technique.last_practice|timesince }}</td>
 </tr>
 {% endfor %}
 </table>

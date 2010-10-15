@@ -25,7 +25,7 @@ def technique_list(request):
         form = TechniqueForm()
     
     info_dict = {
-        'queryset':Technique.objects.all(),
+        'queryset':Technique.objects.club_qset(None),
         'form':form
     }
 
