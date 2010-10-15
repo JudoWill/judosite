@@ -41,10 +41,10 @@ def technique_detail(request, technique = None):
         if add_tag_form.is_valid():
             tag = add_tag_form.cleaned_data.get('Tag', None)
             if tag is None:
-                tag = TechniqueTag(Slug = slugify(add_tag_form.cleaned_data['New_Tag']))
+                tag = TechniqueTag(Name = add_tag_form.cleaned_data['New_Tag'])
                 tag.save()
             tag.Technique.add(tech_obj)
-            messages.success(request, '%s was tagged with %s.' % (tech_obj.Name, tag.Slug))
+            messages.success(request, '%s was tagged with %s.' % (tech_obj.Name, tag.Name))
             return HttpResponseRedirect(tech_obj.get_absolute_url())
     else:
         add_tag_form = AddTagForm()

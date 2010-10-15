@@ -25,7 +25,7 @@
 <h4>Technique Tags</h4>
 <ul>
 {% for tag in technique.techniquetag_set.all %}
-<li><a href="{{tag.get_absolute_url}}">{{tag.Slug}}</a></li>
+<li><a href="{{tag.get_absolute_url}}">{{tag.Name}}</a></li>
 {% endfor %}	
 </ul>
 	

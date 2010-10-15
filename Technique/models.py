@@ -1,6 +1,7 @@
 from django.db import models
 from Dojo.models import Practice
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 class Technique(models.Model):
