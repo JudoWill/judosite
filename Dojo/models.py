@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from datetime import date
 from utils import get_missing_reqs
 from managers import *
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 
@@ -20,13 +21,17 @@ class PersonRecord(models.Model):
 
 class Club(models.Model):
     Name = models.CharField(max_length = 255)
-    Slug = models.SlugField()
+    Slug = models.SlugField(editable = False)
     Members = models.ManyToManyField('Person', through = 'MemberRecord')
 
     class Meta:
         get_latest_by = 'Name'
         ordering = ['Name']
-
+    
+    def save(self, *args, **kwargs):
+        self.Slug = slugify(self.Name)
+        super(Club, self).save(*args, **kwargs)
+    
     def __unicode__(self):
         return self.Slug
 
@@ -82,7 +87,7 @@ class Person(models.Model):
 
 class Requirement(models.Model):
     Name = models.CharField(max_length = 255)
-    Slug = models.SlugField()
+    Slug = models.SlugField(editable = False)
     URL = models.URLField(default = None, blank = True, null = True,
                           verify_exists = False)
     Valid_for = models.IntegerField()
@@ -91,6 +96,11 @@ class Requirement(models.Model):
     class Meta:
         get_latest_by = 'Name'
         ordering = ['Name']
+
+    def save(self, *args, **kwargs):
+        self.Slug = slugify(self.Name)
+        super(Requirement, self).save(*args, **kwargs)
+
 
     def __unicode__(self):
         return self.Slug
