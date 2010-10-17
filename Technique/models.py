@@ -10,6 +10,8 @@ class Technique(models.Model):
     Slug = models.SlugField(editable = False)
 
     Practices = models.ManyToManyField(Practice)
+    DerivativeTechs = models.ManyToManyField('self', related_name = 'DerivedFrom')
+
     objects = TechniqueManager()
 
     def save(self, *args, **kwargs):
@@ -26,6 +28,8 @@ class TechniqueTag(models.Model):
     Name = models.CharField(max_length = 255)
     Slug = models.SlugField(editable = False)
     Technique = models.ManyToManyField(Technique)
+
+    ImpliedTags = models.ManyToManyField('self', related_name = 'ImpliedBy')
 
     def save(self, *args, **kwargs):
         self.Slug = slugify(self.Name)
