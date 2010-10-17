@@ -8,3 +8,4 @@ cherrypy
 pylint
 django-autocomplete
 pil
+GChartWrapper=0.9
