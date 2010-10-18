@@ -24,6 +24,8 @@ from Technique.models import *
 from forms import *
 from utils import update_player_active_qset
 
+from GChartWrapper import GChart
+
 def club_list(request):
 
     info_dict = {
@@ -68,6 +70,9 @@ def practice_list(request, club = None):
 
     club = get_object_or_404(Club, Slug = club)
     practices = club.practice_set.all().annotate(NumPeople = Count('person')).order_by('-Date')
+    fdate = practices.order_by('Date')[0].Date
+    chart = GChart(ctype = 'line')
+    chart.dataset(practices[:500].values_list('NumPeople', flat = True))
 
     if request.method == 'POST':
         form = PracticeModelForm(request.POST)

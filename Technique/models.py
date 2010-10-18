@@ -16,6 +16,7 @@ class Technique(models.Model):
     objects = TechniqueManager()
 
     def save(self, *args, **kwargs):
+        self.Name = self.Name.title()
         self.Slug = slugify(self.Name)
         super(Technique, self).save(*args, **kwargs)
 
@@ -34,6 +35,7 @@ class TechniqueTag(models.Model):
                                             editable = False)
 
     def save(self, *args, **kwargs):
+        self.Name = self.Name.title()
         self.Slug = slugify(self.Name)
         super(TechniqueTag, self).save(*args, **kwargs)
 

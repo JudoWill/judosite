@@ -6,6 +6,9 @@
 {% block subtitle %}{{ club.Name }} Practice List{% endblock %}
 
 {% block content %}
+
+{{ chart.img|safe }}
+
 <form method="post" action="">
     {%  csrf_token %}
     {{ form.as_table }}
