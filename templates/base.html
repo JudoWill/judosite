@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ MEDIA_URL }}/blueprint/screen.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="{{ MEDIA_URL }}/blueprint/print.css" type="text/css" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="{{ MEDIA_URL }}/blueprint/ie.css" type="{{ MEDIA_URL }}/css" media="screen, projection"><![endif]-->
+    <link rel="stylesheet" href="{{ MEDIA_URL }}/extra.css" type="text/css" media="screen, projection">
     {% block extrahead %}
     {% endblock %}
 	<link rel="stylesheet" href="{{ MEDIA_URL }}/autocomplete.css" type="text/css">
@@ -13,6 +14,15 @@
 </head>
 {% block bodytag %}
 <body>
+{% endblock %}
+{% block menu_block %}
+   <ul id="menu">
+       <li><a href="{% url home_site %}">Home</a></li>
+       <li><a href="#">Log Practices</a></li>
+        <li><a href="#">Club Stats</a></li>
+        <li><a href="#">Player Lists</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
 {% endblock %}
     <div class="container">
        <div class="span-24 last">

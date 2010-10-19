@@ -29,7 +29,7 @@ autocomplete.register(
 )
 
 urlpatterns = patterns('django.views.generic.simple',
-                       (r'^judosite/home.html', 'direct_to_template', {'template': 'index.html'}),
+                       (r'^judosite/home.html', 'direct_to_template', {'template': 'index.html'}, 'home_site'),
                        )
 
 
