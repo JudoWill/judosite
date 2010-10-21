@@ -1,0 +1,101 @@
+[
+  {
+    "pk": 1, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 1, 
+      "Practice": 1, 
+      "DateOccured": "2010-09-06"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 1, 
+      "Practice": 2, 
+      "DateOccured": "2010-09-14"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 2, 
+      "Practice": 1, 
+      "DateOccured": "2008-09-29"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 2, 
+      "Practice": 2, 
+      "DateOccured": "2008-09-29"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 3, 
+      "Practice": 1, 
+      "DateOccured": "2008-09-29"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 3, 
+      "Practice": 3, 
+      "DateOccured": "2008-09-29"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 4, 
+      "Practice": 3, 
+      "DateOccured": "2008-10-02"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 4, 
+      "Practice": 2, 
+      "DateOccured": "2008-10-02"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 5, 
+      "Practice": 4, 
+      "DateOccured": "2008-10-02"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 5, 
+      "Practice": 5, 
+      "DateOccured": "2008-10-02"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "Dojo.practicerecord", 
+    "fields": {
+      "Person": 6, 
+      "Practice": 5, 
+      "DateOccured": "2008-10-02"
+    }
+  }
+]

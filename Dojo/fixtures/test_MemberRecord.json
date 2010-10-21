@@ -1,0 +1,92 @@
+[
+  {
+    "pk": 1, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 1, 
+      "Person": 1, 
+      "DateOccured": "2008-09-29", 
+      "is_active": true
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 1, 
+      "Person": 2, 
+      "DateOccured": "2008-10-02", 
+      "is_active": true
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 1, 
+      "Person": 3, 
+      "DateOccured": "2008-10-02", 
+      "is_active": true
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 1, 
+      "Person": 1, 
+      "DateOccured": "2009-10-02", 
+      "is_active": false
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 1, 
+      "Person": 6, 
+      "DateOccured": "2008-10-02", 
+      "is_active": true
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 1, 
+      "Person": 6, 
+      "DateOccured": "2009-10-02", 
+      "is_active": false
+    }
+  },
+  {
+    "pk": 7, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 2, 
+      "Person": 6, 
+      "DateOccured": "2009-10-02", 
+      "is_active": true
+    }
+  },
+  {
+    "pk": 8, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 2, 
+      "Person": 2, 
+      "DateOccured": "2009-10-02", 
+      "is_active": true
+    }
+  },
+  {
+    "pk": 8, 
+    "model": "Dojo.memberrecord", 
+    "fields": {
+      "Club": 3, 
+      "Person": 3, 
+      "DateOccured": "2009-10-02", 
+      "is_active": true
+    }
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "pk": 1, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Club": 1, 
+      "Date": "2010-08-09"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Club": 1, 
+      "Date": "2010-09-02"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Club": 2, 
+      "Date": "2010-09-06"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Club": 2, 
+      "Date": "2010-09-14"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Dojo.practice", 
+    "fields": {
+      "Club": 3, 
+      "Date": "2008-09-29"
+    }
+  }
+]
