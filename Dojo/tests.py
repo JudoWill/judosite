@@ -7,10 +7,16 @@ Replace these with more appropriate tests for your application.
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from Dojo.models import *
+from django.contrib.auth.models import User
 
 class TestViews(TestCase):
     fixtures = ['test_Club', 'test_Person', 'test_RankRecord',
                 'test_MemberRecord', 'test_PracticeRecord', 'test_Practice']
+
+    def setUp(self):
+        user = User.objects.create_user('tu', 't@example.com', 'tpass')
+        user.save()
+
 
     def test_home(self):
 
@@ -46,9 +52,25 @@ class TestViews(TestCase):
             resp = self.client.get(reverse('practice_list', kwargs = {'club':club}))
             self.assertEqual(resp.status_code, 200)
             self.assertContains(resp, club.Name)
-            print club
+
             for practice in Practice.objects.filter(Club = club):
                 self.assertContains(resp, practice.get_absolute_url())
             else:
                 self.assertTrue(Practice.objects.filter(Club = club).count() > 0)
+
+
+    def test_practice_detail(self):
+        self.client.login(username = 'tu', password = 'tpass')
+        for practice in Practice.objects.all():
+            print practice.get_absolute_url()
+            resp = self.client.get(practice.get_absolute_url())
+            self.assertEqual(resp.status_code, 200)
+            self.assertContains(resp, practice.Club.Name)
+
+            for person in practice.person_set.all():
+                self.assertContains(resp, person.Name)
+                self.assertContains(resp, person.get_absolute_url())
+            else:
+                self.assertTrue(practice.person_set.all().count() > 0)
+
 
