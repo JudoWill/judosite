@@ -33,7 +33,7 @@ class TestViews(TestCase):
         for club in Club.objects.all():
             resp = self.client.get(club.get_absolute_url())
             self.assertEqual(resp.status_code, 200)
-
+            self.assertContains(resp, club.Name)
             for person in Person.objects.filter(practicerecord__Practice__Club = club):
                 self.assertContains(resp, person.Name)
                 self.assertContains(resp, person.get_absolute_url())
