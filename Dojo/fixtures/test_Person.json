@@ -1,0 +1,68 @@
+[
+  {
+    "pk": 1, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "Gender": "Male", 
+      "is_instructor": false, 
+      "Name": "Student 1", 
+      "Email": ""
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "Gender": "Female", 
+      "is_instructor": true, 
+      "Name": "Student 2", 
+      "Email": ""
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "Gender": "Male", 
+      "is_instructor": false, 
+      "Name": "Student 3", 
+      "Email": null
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "Gender": "Male", 
+      "is_instructor": false, 
+      "Name": "Student 4", 
+      "Email": "st44@example.com"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "Gender": "Male", 
+      "is_instructor": false, 
+      "Name": "Student 4", 
+      "Email": null
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "Dojo.person", 
+    "fields": {
+      "Picture": "", 
+      "Gender": "Female", 
+      "is_instructor": false, 
+      "Name": "Student 6", 
+      "Email": null
+    }
+  }, 
+]
