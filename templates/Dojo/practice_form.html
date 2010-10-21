@@ -1,0 +1,5 @@
+<form id="practice_form" method="post" action="{% url practice_form_landing %}">
+    <input type="submit" value="Submit">
+	{{ practice_form.as_ul }}
+    {%  csrf_token %}
+</form>

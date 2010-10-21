@@ -2,6 +2,7 @@ from Dojo.models import *
 from django import template
 from Dojo.utils import get_missing_reqs
 from datetime import timedelta, date
+from Dojo.forms import *
 import re
 register = template.Library()
 
@@ -46,4 +47,11 @@ def list_inactive_players(club):
     qset = Person.objects.club_qset(club).order_by('-last_practice')
 
     return {'person_list':qset, 'club':club}
+    
+@register.inclusion_tag('Dojo/practice_form.html')
+def practice_form():
+    
+    practice_form = LPracticeForm()
+    
+    return {'practice_form':practice_form}
     

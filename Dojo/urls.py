@@ -14,5 +14,6 @@ urlpatterns = patterns('',
                        url(r'(?P<id>\d+)/person_detail.html', person_detail, name = 'person_detail'),
                        url(r'(?P<slug>[\w-]+)/requirement_detail.html', requirement_detail, name = 'requirement_detail'),
                        url(r'requirements.html', requirement_list, name = 'requirement_list'),
-                       url(r'search.html', search, name = 'person_search')
+                       url(r'search.html', search, name = 'person_search'),
+                       url(r'practice_landing.html', club_landing, name = 'practice_form_landing'),
                        )
