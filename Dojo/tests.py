@@ -10,7 +10,7 @@ from Dojo.models import *
 
 class TestViews(TestCase):
     fixtures = ['test_Club', 'test_Person', 'test_RankRecord',
-                'test_MemberRecord', 'test_PracticeRecord']
+                'test_MemberRecord', 'test_PracticeRecord', 'test_Practice']
 
     def test_home(self):
 
@@ -40,5 +40,15 @@ class TestViews(TestCase):
             else:
                 self.assertTrue(club.Members.all().count() > 0)
 
+    def test_practice_list(self):
 
+        for club in Club.objects.all():
+            resp = self.client.get(reverse('practice_list', kwargs = {'club':club}))
+            self.assertEqual(resp.status_code, 200)
+            self.assertContains(resp, club.Name)
+            print club
+            for practice in Practice.objects.filter(Club = club):
+                self.assertContains(resp, practice.get_absolute_url())
+            else:
+                self.assertTrue(Practice.objects.filter(Club = club).count() > 0)
 

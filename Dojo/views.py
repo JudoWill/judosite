@@ -70,9 +70,10 @@ def practice_list(request, club = None):
 
     club = get_object_or_404(Club, Slug = club)
     practices = club.practice_set.all().annotate(NumPeople = Count('person')).order_by('-Date')
-    chart = GChart(ctype = 'line')
-    data = sliding_window(practices)
-    chart.dataset(data[:500]).axes.type('xy')
+    if practices.count() > 10:
+        chart = GChart(ctype = 'line')
+        data = sliding_window(practices)
+        chart.dataset(data[:500]).axes.type('xy')
     
 
     if request.method == 'POST':
