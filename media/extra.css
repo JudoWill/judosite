@@ -94,7 +94,7 @@ body, ul, li {
 .dropdown_3columns,
 .dropdown_4columns,
 .dropdown_5columns {
-	margin:4px auto;
+	margin:10px auto;
 	float:left;
 	position:absolute;
 	left:-999em; /* Hides the drop down */
@@ -114,7 +114,7 @@ body, ul, li {
 	border-radius: 0px 5px 5px 5px;
 }
 
-.dropdown_1column {width: 140px;}
+.dropdown_1column {width: 200px;}
 .dropdown_2columns {width: 280px;}
 .dropdown_3columns {width: 420px;}
 .dropdown_4columns {width: 560px;}
