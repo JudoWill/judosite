@@ -234,6 +234,18 @@ def requirement_detail(request, slug = None):
 def requirement_list(request):
     pass
 
+def club_landing(request):
+    
+    if request.method == 'POST':
+        form = LPracticeForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit = False)
+            obj.save()
+            return HttpResponseRedirect(obj.gt_absolute_url())
+        
+    messages.error('Could not create the practice')    
+    return HttpResponseRedirect(request.session.get('last_page', reverse('home_site')))
+
 
 def make_messages(request, oitem, nitem, fields):
     func = attrgetter(*fields)

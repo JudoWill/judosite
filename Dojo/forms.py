@@ -37,4 +37,9 @@ class PracticeModelForm(ModelForm):
     class Meta:
         model = Practice
         exclude = ('Club',)
+
+
+class LPracticeForm(ModelForm):
     
+    class Meta:
+        model = Practice    

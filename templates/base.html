@@ -1,4 +1,4 @@
-
+{% load dojo_tags %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -18,7 +18,16 @@
 {% block menu_block %}
    <ul id="menu">
        <li><a href="{% url home_site %}">Home</a></li>
-       <li><a href="#">Log Practices</a></li>
+       <li><a href="#" class = "drop">Log Practices</a>
+         <div class="dropdown_1column align_right">  
+   
+                 <div class="col_1">  
+   					{% practice_form %}
+
+                 </div>  
+   
+         </div> 	
+	</li>
         <li><a href="#">Club Stats</a></li>
         <li><a href="#">Player Lists</a></li>
         <li><a href="#">Contact</a></li>
