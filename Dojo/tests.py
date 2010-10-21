@@ -4,20 +4,16 @@ unittest). These will both pass when you run "manage.py test".
 
 Replace these with more appropriate tests for your application.
 """
-
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
+class TestViews(TestCase):
+    fixtures = ['test_Club', 'test_Person', 'test_RankRecord']
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+    def test_home(self):
 
->>> 1 + 1 == 2
-True
-"""}
+        resp = self.client.get(reverse('home_site'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Home')
+
 
