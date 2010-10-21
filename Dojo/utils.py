@@ -2,6 +2,9 @@ from Dojo.models import *
 from django.db.models import Count
 from datetime import timedelta, date
 from django.contrib import messages
+from collections import deque
+from itertools import islice
+from operator import attrgetter
 
 
 
@@ -34,7 +37,19 @@ def update_player_active_qset(qset, club, days = 90, date_check = date.today(), 
                     messages.success(request, '%s is now INACTIVE' % player.Name)
 
 
-
+def sliding_window(qset, numfield = 'NumPeople', datefield = 'Date', winsize = 10):
+    
+    vgetter = attrgetter(numfield)
+    qiter = qset.order_by('Date').iterator()
+    win = deque([],winsize)
+    
+    vals = []
+    for prac in qiter:
+        win.append(vgetter(prac))
+        vals.append(sum(win)/winsize)
+        
+    return vals
+    
 
 
 def get_missing_reqs(person, clubs = None, date_check = date.today()):

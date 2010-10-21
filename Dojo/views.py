@@ -22,7 +22,7 @@ from django.contrib import messages
 from Dojo.models import *
 from Technique.models import *
 from forms import *
-from utils import update_player_active_qset
+from utils import update_player_active_qset, sliding_window
 
 from GChartWrapper import GChart
 
@@ -70,9 +70,10 @@ def practice_list(request, club = None):
 
     club = get_object_or_404(Club, Slug = club)
     practices = club.practice_set.all().annotate(NumPeople = Count('person')).order_by('-Date')
-    fdate = practices.order_by('Date')[0].Date
     chart = GChart(ctype = 'line')
-    chart.dataset(practices[:500].values_list('NumPeople', flat = True))
+    data = sliding_window(practices)
+    chart.dataset(data[:500]).axes.type('xy')
+    
 
     if request.method == 'POST':
         form = PracticeModelForm(request.POST)
@@ -241,7 +242,7 @@ def club_landing(request):
         if form.is_valid():
             obj = form.save(commit = False)
             obj.save()
-            return HttpResponseRedirect(obj.gt_absolute_url())
+            return HttpResponseRedirect(obj.get_absolute_url())
         
     messages.error('Could not create the practice')    
     return HttpResponseRedirect(request.session.get('last_page', reverse('home_site')))
