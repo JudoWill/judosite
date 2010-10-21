@@ -9,7 +9,8 @@ from django.test import TestCase
 from Dojo.models import *
 
 class TestViews(TestCase):
-    fixtures = ['test_Club', 'test_Person', 'test_RankRecord']
+    fixtures = ['test_Club', 'test_Person', 'test_RankRecord',
+                'test_MemberRecord', 'test_PracticeRecord']
 
     def test_home(self):
 
@@ -23,6 +24,21 @@ class TestViews(TestCase):
         self.assertEqual(resp.status_code, 200)
         for club in Club.objects.all():
             self.assertContains(resp, club.Name)
+            self.assertContains(resp, club.get_absolute_url())
         else:
             self.assertTrue(Club.objects.all().count() > 0)
+
+    def test_club_detail(self):
+
+        for club in Club.objects.all():
+            resp = self.client.get(club.get_absolute_url())
+            self.assertEqual(resp.status_code, 200)
+
+            for person in Person.objects.filter(practicerecord__Practice__Club = club):
+                self.assertContains(resp, person.Name)
+                self.assertContains(resp, person.get_absolute_url())
+            else:
+                self.assertTrue(club.Members.all().count() > 0)
+
+
 
