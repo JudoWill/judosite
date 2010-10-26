@@ -108,4 +108,21 @@ class TestViews(TestCase):
         for person in Person.objects.all():
             self.assertContains(resp, person.Name)
             self.assertContains(resp, person.get_absolute_url())
+        else:
+            self.assertTrue(Person.objects.all().count() > 0 )
+
+
+    def test_person_detail(self):
+
+        for person in Person.objects.all():
+            resp = self.check_login_required(person.get_absolute_url())
+            self.assertContains(resp, person.Name)
+            for club in person.club_set.all():
+                self.assertContains(resp, club.Name)
+                self.assertContains(resp, club.get_absolute_url())
+
+        else:
+            self.assertTrue(Person.objects.all().count() > 0 )
+
+
 
