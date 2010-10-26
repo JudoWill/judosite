@@ -17,6 +17,18 @@ class TestViews(TestCase):
         user = User.objects.create_user('tu', 't@example.com', 'tpass')
         user.save()
 
+    def check_login_required(self, url):
+
+        resp = self.client.logout()
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 302)
+
+        self.client.login(username = 'tu', password = 'tpass')
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+
+        return resp
+
 
     def test_home(self):
 
@@ -60,10 +72,9 @@ class TestViews(TestCase):
 
 
     def test_practice_detail(self):
-        self.client.login(username = 'tu', password = 'tpass')
+
         for practice in Practice.objects.all():
-            print practice.get_absolute_url()
-            resp = self.client.get(practice.get_absolute_url())
+            resp = self.check_login_required(practice.get_absolute_url())
             self.assertEqual(resp.status_code, 200)
             self.assertContains(resp, practice.Club.Name)
 
@@ -75,10 +86,10 @@ class TestViews(TestCase):
 
 
     def test_person_list_by_club(self):
-        self.client.login(username = 'tu', password = 'tpass')
+
         for club in Club.objects.all():
             resp = self.client.get(reverse('person_list_by_club', args = (),
-                                           kwargs = {'club':club.Slug}))
+                                                kwargs = {'club':club.Slug}))
 
             self.assertContains(resp, club.Name)
 
@@ -89,3 +100,7 @@ class TestViews(TestCase):
                 self.assertTrue(club.Members.all().count() > 0)
         else:
             self.assertTrue(Club.objects.all().count() > 0)
+
+    def test_person_list(self):
+
+        pass
