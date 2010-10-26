@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load dojo_tags %}
 
-{% block subtitle %}{% if club_obj %}{{ club_obj.Name }}:{% endif %}Member List{% endblock %}
+{% block subtitle %}{% if club %}{{ club.Name }}:{% endif %}Member List{% endblock %}
 {% block content %}
 <h4>Active Members</h4>
 {% list_active_players "None" %}

@@ -74,3 +74,18 @@ class TestViews(TestCase):
                 self.assertTrue(practice.person_set.all().count() > 0)
 
 
+    def test_person_list_by_club(self):
+        self.client.login(username = 'tu', password = 'tpass')
+        for club in Club.objects.all():
+            resp = self.client.get(reverse('person_list_by_club', args = (),
+                                           kwargs = {'club':club.Slug}))
+
+            self.assertContains(resp, club.Name)
+
+            for person in Person.objects.filter(practicerecord__Practice__Club = club):
+                self.assertContains(resp, person.Name)
+                self.assertContains(resp, person.get_absolute_url())
+            else:
+                self.assertTrue(club.Members.all().count() > 0)
+        else:
+            self.assertTrue(Club.objects.all().count() > 0)
