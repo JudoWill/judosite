@@ -103,4 +103,9 @@ class TestViews(TestCase):
 
     def test_person_list(self):
 
-        pass
+        resp = self.client.get(reverse('person_list'))
+        self.assertEqual(resp.status_code, 200)
+        for person in Person.objects.all():
+            self.assertContains(resp, person.Name)
+            self.assertContains(resp, person.get_absolute_url())
+
