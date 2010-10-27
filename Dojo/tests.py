@@ -15,6 +15,7 @@ class TestViews(TestCase):
 
     def setUp(self):
         user = User.objects.create_user('tu', 't@example.com', 'tpass')
+        user.is_superuser = True
         user.save()
 
     def check_login_required(self, url):
