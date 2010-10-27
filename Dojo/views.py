@@ -40,14 +40,36 @@ def search(request):
 
 def club_detail(request, club = None):
 
+    club = get_object_or_404(Club, Slug = club)
+
+    if request.method == 'POST':
+        form = ManagerForm(request.POST)
+        if request.user in club.Managers.all() or request.user.is_superuser:
+            if form.is_valid():
+                remove = form.cleaned_data['Remove']
+                user = form.cleaned_data['User']
+                if remove:
+                    club.Managers.remove(user)
+                    messages.success(request, '%s was removed as a manager for  %s.' % (user.username, club.Name))
+                else:
+                    club.Managers.add(user)
+                    messages.success(request, '%s was added as a manager for  %s.' % (user.username, club.Name))
+                return HttpResponseRedirect(club.get_absolute_url())
+        else:
+            messages.error(request, 'Only Managers can add other managers!')
+            return HttpResponseRedirect(club.get_absolute_url())
+    else:
+        form = ManagerForm()
+
     info_dict = {
-        'queryset':Club.objects.all(),
+        'club':club,
         'template_name':'Dojo/Club_object_detail.html',
-        'slug':club,
-        'slug_field':'Slug'
+        'manager_form':form
+
     }
 
-    return list_detail.object_detail(request, **info_dict)
+    return render_to_response('Dojo/Club_object_detail.html', info_dict,
+                              context_instance = RequestContext(request))
 
 def check_club(request, club = None):
     club = get_object_or_404(Club, Slug = club)

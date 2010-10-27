@@ -1,11 +1,36 @@
 {% extends "base.html" %}
 {% load dojo_tags %}
 
-{% block subtitle %}{{ object.Name }} Detail{% endblock %}
+{% block extrahead %}{{ manager_form.media }}{% endblock %}
+
+{% block subtitle %}{{ club.Name }} Detail{% endblock %}
 
 {% block content %}
-<h4><a href="{% url practice_list club=object.Slug %}">Practice List</a></h4>
-<p>Click <a href = "{% url club_check club=object.Slug%}">here</a> to check club for missing or inactive members</p>
+<h4><a href="{% url practice_list club=club.Slug %}">Practice List</a></h4>
+<p>Click <a href = "{% url club_check club=club.Slug%}">here</a> to check club for missing or inactive members</p>
+
+
+<h4>Managers</h4>
+    <form method="post" action="">
+        <input type="submit" value="Submit">
+        {{ manager_form.as_ul }}
+        {%  csrf_token %}
+    </form>
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+<ul>
+{% for user in club.Managers.all %}
+<li>{{ user.username }}</li>
+{% endfor %}
+</ul>
+
+
+
 <h4>Instructors</h4>
 <table width="70%">
 <thead>
@@ -13,19 +38,18 @@
 <th>Rank</th>
 <th>Classes Taught</th>
 </thead>
-{% for member in object.get_instructors.distinct %}
+{% for member in club.get_instructors.distinct %}
 <tr>
 <td><a href="{{ member.get_absolute_url }}">{{ member.Name }}</a></td>
 <td>{{ member.rankrecord_set.latest.Rank }}</td>
-<td>{% num_classes_by_club member object %}</td>
 </tr>
 {% endfor %}
 </table>
 
 <h4>Active Students</h4>
-{% list_active_players object %}
+{% list_active_players club %}
 
 <h4>InActive Members</h4>
-{% list_inactive_players object %}
+{% list_inactive_players club %}
 
 {% endblock %}

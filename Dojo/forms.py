@@ -30,6 +30,13 @@ class PracticeForm(forms.Form):
             
         return self.cleaned_data
 
+class ManagerForm(forms.Form):
+
+    Remove = forms.BooleanField(required = False)
+    User = LocalModelChoiceField('users', required = False)
+
+
+
         
 
 class PracticeModelForm(ModelForm):
