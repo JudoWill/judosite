@@ -8,6 +8,7 @@ admin.autodiscover()
 from Dojo.models import Person
 from Technique.models import Technique, TechniqueTag
 from autocomplete.views import autocomplete
+from django.contrib.auth.models import User
 
 autocomplete.register(
         id = 'student',
@@ -27,6 +28,13 @@ autocomplete.register(
     fields = ('Slug', ),
     limit = 5
 )
+autocomplete.register(
+    id = 'users',
+    queryset = User.objects.all(),
+    fields = ('username', ),
+    limit = 5
+)
+
 
 urlpatterns = patterns('django.views.generic.simple',
                        (r'^judosite/home.html', 'direct_to_template', {'template': 'index.html'}, 'home_site'),
