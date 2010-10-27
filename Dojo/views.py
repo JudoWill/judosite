@@ -22,7 +22,7 @@ from django.contrib import messages
 from Dojo.models import *
 from Technique.models import *
 from forms import *
-from utils import update_player_active_qset, sliding_window
+from utils import update_player_active_qset, sliding_window, check_manager_status
 
 from GChartWrapper import GChart
 
@@ -44,20 +44,19 @@ def club_detail(request, club = None):
 
     if request.method == 'POST':
         form = ManagerForm(request.POST)
-        if request.user in club.Managers.all() or request.user.is_superuser:
-            if form.is_valid():
-                remove = form.cleaned_data['Remove']
-                user = form.cleaned_data['User']
-                if remove:
-                    club.Managers.remove(user)
-                    messages.success(request, '%s was removed as a manager for  %s.' % (user.username, club.Name))
-                else:
-                    club.Managers.add(user)
-                    messages.success(request, '%s was added as a manager for  %s.' % (user.username, club.Name))
-                return HttpResponseRedirect(club.get_absolute_url())
-        else:
-            messages.error(request, 'Only Managers can add other managers!')
+
+        if form.is_valid() and check_manager_status(request, club):
+            remove = form.cleaned_data['Remove']
+            user = form.cleaned_data['User']
+            if remove:
+                club.Managers.remove(user)
+                messages.success(request, '%s was removed as a manager for  %s.' % (user.username, club.Name))
+            else:
+                club.Managers.add(user)
+                messages.success(request, '%s was added as a manager for  %s.' % (user.username, club.Name))
             return HttpResponseRedirect(club.get_absolute_url())
+
+
     else:
         form = ManagerForm()
 
@@ -119,10 +118,10 @@ def practice_detail(request, club = None, id = None):
     request.session['last_page'] = request.path
     if request.method == 'POST':
         form = PracticeForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and check_manager_status(request, club):
             person = form.cleaned_data.get('Person', None)
             if person is None and len(form.cleaned_data['New_person']) > 0:
-                person = Person(Name = form.cleaned_data['New_person'])
+                person, isnew = Person.objects.get_or_create(Name = form.cleaned_data['New_person'])
                 person.save()
                 mr = MemberRecord(Person = person,
                                   Club = club,
@@ -142,8 +141,8 @@ def practice_detail(request, club = None, id = None):
             tech = form.cleaned_data.get('Technique', None)
             if tech is None and len(form.cleaned_data['New_technique']) > 0:
                 print 'form', form.cleaned_data['New_technique'] is None
-                tech = Technique(Name = form.cleaned_data['New_technique'])
-                tech.save()
+                tech, isnew = Technique.objects.get_or_create(Name = form.cleaned_data['New_technique'])
+
             if tech:
                 practice.technique_set.add(tech)
                 messages.success(request, 'Sucessfully added the %s Technique' % tech.Name)
@@ -267,7 +266,7 @@ def club_landing(request):
             obj.save()
             return HttpResponseRedirect(obj.get_absolute_url())
         
-    messages.error('Could not create the practice')    
+    messages.error(request, 'Could not create the practice')
     return HttpResponseRedirect(request.session.get('last_page', reverse('home_site')))
 
 
