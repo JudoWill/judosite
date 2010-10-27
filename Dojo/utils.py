@@ -50,6 +50,14 @@ def sliding_window(qset, numfield = 'NumPeople', datefield = 'Date', winsize = 1
         
     return vals
     
+def check_manager_status(request, club):
+
+    if request.user in club.Managers.all() or request.user.is_superuser:
+        return True
+    else:
+        messages.error('You must be a manager of %s!' % club.Name)
+        return False
+
 
 
 def get_missing_reqs(person, clubs = None, date_check = date.today()):
