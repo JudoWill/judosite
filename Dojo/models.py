@@ -5,6 +5,7 @@ from datetime import date
 from utils import get_missing_reqs
 from managers import *
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -23,6 +24,7 @@ class Club(models.Model):
     Name = models.CharField(max_length = 255)
     Slug = models.SlugField(editable = False)
     Members = models.ManyToManyField('Person', through = 'MemberRecord')
+    Managers = models.ManyToManyField(User)
 
     class Meta:
         get_latest_by = 'Name'
