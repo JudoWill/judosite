@@ -58,6 +58,21 @@ class TestForms(TestCase):
             
             self.assertRedirects(resp, practice.get_absolute_url())
 
+    def test_add_existing_person_to_practice(self):
+        
+        self.client.login(username = 'tu', password = 'tpass')
+        for club in Club.objects.all():
+            practice = Practice(Date = date.today(),
+                                Club = club)
+            practice.save()
+            url = practice.get_absolute_url()
+            for person in Person.objects.filter(practicerecord__Practice__Club = club):
+                resp = self.client.post(url, data = {'Person':person.id}, follow = True)
+                self.assertContains(resp, person.Name)
+                self.assertContains(resp, person.get_absolute_url())
+            
+    
+        
 
 
 class TestViews(TestCase):
