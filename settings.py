@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Third-party apps
     'south',
+    'django_nose',
     # My Apps
     'Dojo',
     'Technique'

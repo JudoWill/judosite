@@ -6,10 +6,12 @@ Replace these with more appropriate tests for your application.
 """
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.forms import ValidationError
 from Dojo.models import *
 from Dojo.forms import *
 from django.contrib.auth.models import User
 from datetime import date
+#from unittest.TestCase import assertRaises
 
 class TestForms(TestCase):
     fixtures = ['test_Club', 'test_Person', 'test_RankRecord',
@@ -58,6 +60,22 @@ class TestForms(TestCase):
             
             self.assertRedirects(resp, practice.get_absolute_url())
 
+    def test_add_person_to_practice_form(self):
+        
+        self.client.login(username = 'tu', password = 'tpass')
+        for club in Club.objects.all():
+            practice = Practice(Date = date.today(),
+                                Club = club)
+            practice.save()
+            url = practice.get_absolute_url()
+            resp = self.client.get(url)
+            self.assertTrue(isinstance(resp.context['form'], PracticeForm))
+    
+    def test_practice_form_validation(self):
+        
+        form = PracticeForm({})
+        self.assertTrue(form.is_valid() == False)   
+
     def test_add_existing_person_to_practice(self):
         
         self.client.login(username = 'tu', password = 'tpass')
@@ -95,7 +113,7 @@ class TestForms(TestCase):
             self.assertTrue(RankRecord.objects.filter(Person = person, Rank = 'White').exists())
             
             self.assertTrue(PracticeRecord.objects.filter(Person = person, 
-                                                            Practice = practice))
+                                                            Practice = practice))   
         
 
 
