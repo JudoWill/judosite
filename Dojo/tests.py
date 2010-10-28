@@ -7,7 +7,40 @@ Replace these with more appropriate tests for your application.
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from Dojo.models import *
+from Dojo.forms import *
 from django.contrib.auth.models import User
+from datetime import date
+
+class TestForms(TestCase):
+    fixtures = ['test_Club', 'test_Person', 'test_RankRecord',
+                'test_MemberRecord', 'test_PracticeRecord', 'test_Practice']
+    
+    def setUp(self):
+        user = User.objects.create_user('tu', 't@example.com', 'tpass')
+        user.is_superuser = True
+        user.save()
+    
+    def test_add_practice_from_practice_list(self):
+        
+        self.client.login(username = 'tu', password = 'tpass')
+        
+        for club in Club.objects.all():
+            url = reverse('practice_list', args = (), kwargs = {'club':club.Slug})
+            resp = self.client.get(url)
+            #make sure the form is the proper type
+            self.assertTrue(isinstance(resp.context['form'], PracticeModelForm))
+            
+            resp = self.client.post(url, data = {'Date':date.today()}, 
+                                    follow = True)
+            
+            self.assertTrue(club.practice_set.filter(Date = date.today()))
+            practice = club.practice_set.get(Date = date.today())
+            
+            self.assertRedirects(resp, practice.get_absolute_url())
+        
+        
+
+
 
 class TestViews(TestCase):
     fixtures = ['test_Club', 'test_Person', 'test_RankRecord',
