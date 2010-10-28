@@ -36,9 +36,27 @@ class TestForms(TestCase):
             self.assertTrue(club.practice_set.filter(Date = date.today()))
             practice = club.practice_set.get(Date = date.today())
             
+            self.assertRedirects(resp, practice.get_absolute_url())    
+    
+    def test_practice_form_renders(self):
+        landing_site = reverse('practice_form_landing')
+        resp = self.client.get(reverse('home_site'))
+        
+        self.assertContains(resp, r'<form id="practice_form" method="post" action="%s">' % landing_site)
+        
+    
+    def test_add_practice_from_anywhere(self):
+        
+        self.client.login(username = 'tu', password = 'tpass')
+        landing_site = reverse('practice_form_landing')
+        
+        for club in Club.objects.all():
+            resp = self.client.post(landing_site, data = {'Date':date.today(), 'Club':club.id}, 
+                                    follow = True)
+            self.assertTrue(club.practice_set.filter(Date = date.today()).exists())
+            practice = club.practice_set.get(Date = date.today())
+            
             self.assertRedirects(resp, practice.get_absolute_url())
-        
-        
 
 
 
