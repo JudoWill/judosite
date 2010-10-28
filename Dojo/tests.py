@@ -70,8 +70,32 @@ class TestForms(TestCase):
                 resp = self.client.post(url, data = {'Person':person.id}, follow = True)
                 self.assertContains(resp, person.Name)
                 self.assertContains(resp, person.get_absolute_url())
+                
+                self.assertTrue(PracticeRecord.objects.filter(Person = person, 
+                                                                Practice = practice))
             
-    
+    def test_add_new_person_to_practice(self):
+        
+        self.client.login(username = 'tu', password = 'tpass')
+        for club in Club.objects.all():
+            practice = Practice(Date = date.today(),
+                                Club = club)
+            practice.save()
+            name = 'Newperson-%s' % club.Name
+            url = practice.get_absolute_url()
+            resp = self.client.post(url, data = {'New_person':name}, follow = True)
+            
+            self.assertTrue(Person.objects.filter(Name = name).exists())
+            person = Person.objects.get(Name = name)
+            
+            self.assertContains(resp, name)
+            self.assertContains(resp, person.get_absolute_url())
+            
+            self.assertTrue(MemberRecord.objects.filter(Person = person, Club = club).exists())
+            self.assertTrue(RankRecord.objects.filter(Person = person, Rank = 'White').exists())
+            
+            self.assertTrue(PracticeRecord.objects.filter(Person = person, 
+                                                            Practice = practice))
         
 
 
