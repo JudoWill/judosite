@@ -16,6 +16,7 @@ def order_list(request):
         if form.is_valid():
             order = form.save(commit = False)
             order.save()
+            OrderStatus(order = order, date = order.date, status = 'Requested').save()
             
             return HttpResponseRedirect(order.get_absolute_url())
     else:
