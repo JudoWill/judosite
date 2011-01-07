@@ -4,6 +4,8 @@ from django.views.generic import list_detail
 from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 
 from models import *
 from forms import *
@@ -17,7 +19,7 @@ def order_list(request):
             order = form.save(commit = False)
             order.save()
             OrderStatus(order = order, date = order.date, status = 'Requested').save()
-            
+            messages.success(request, 'Order was created for %s.' % order.person.Name)
             return HttpResponseRedirect(order.get_absolute_url())
     else:
         form = NewOrder()
@@ -39,6 +41,8 @@ def order_detail(request, ID = None):
         formset = OrderStatusFormset(request.POST, instance = order)
         if formset.is_valid():
             formset.save()
+            messages.success(request, 'Order was updated for %s.' % order.person.Name)
+            return HttpResponseRedirect(reverse('order_list'))
     else:
         formset = OrderStatusFormset(instance = order)
 
