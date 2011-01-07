@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Gi Order List{% endblock %}
+{% block extrahead %}{{ form.media }}{% endblock %}
+
+{% block content %}
+
+<form method="post" action="">
+        <input type="submit" value="Submit">
+        {{ form.as_ul }}
+        {%  csrf_token %}
+</form>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<table width="70%">
+<thead>
+<th>Person</th>
+<th>Status</th>
+<th>Gi Type</th>
+<th>Color</th>
+</thead>
+{% for order in object_list %}
+<tr>
+<td><a href="{{ order.get_absolute_url }}">{{ order.person.Name }}</a></td>
+<td>{{ order.orderstatus_set.latest.status }}</td>
+<td>{{ order.gitype.description }}</td>
+<td>{{ order.gitype.color }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

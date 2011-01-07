@@ -99,7 +99,8 @@ INSTALLED_APPS = (
     'django_nose',
     # My Apps
     'Dojo',
-    'Technique'
+    'Technique',
+    'Order'
 )
 
 LOGIN_REDIRECT_URL = 'home.html'

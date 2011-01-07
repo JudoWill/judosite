@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Gi Order Detail{% endblock %}
+{% block extrahead %}{{ formset.media }}{% endblock %}
+{% block content %}
+
+<p>Name: {{order.person.Name}}</p>
+<p>Type: {{order.gitype.description}}</p>
+<p>Color: {{order.gitype.color}}</p>
+<p>Current Status: {{order.orderstatus_set.latest.status}}</p>
+
+<form method="post" action="">
+        {{ formset.management_form }}
+        {% csrf_token %}
+        <table>
+            <thead>
+            <th></th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Delete</th>
+            </thead>
+            {% for form in formset.forms %}
+            <tr>
+                {% for field in form %}
+                <td>{{ field.errors }}
+                {{ field }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" >
+    </form>
+
+{% endblock %}

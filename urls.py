@@ -55,6 +55,7 @@ urlpatterns += patterns('',
 	url(r'judosite/logout.html', 'django.contrib.auth.views.logout', name = 'logout'),
     (r'^judosite/Dojo/', include('Dojo.urls')),
     (r'^judosite/Technique/', include('Technique.urls')),
+    (r'^judosite/GiOrder/', include('Order.urls')),
     url('^judosite/autocomplete/(\w+)/$', autocomplete, name='autocomplete'),
 )
 
