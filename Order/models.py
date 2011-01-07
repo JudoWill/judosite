@@ -16,7 +16,7 @@ class GiOrder(models.Model):
         ordering = ['date', 'person']    
 
     def __unicode__(self):
-        return ':'.join([str(self.Person), str(self.gitype), str(self.date)])
+        return ':'.join([str(self.person), str(self.gitype), str(self.date)])
 
     def get_absolute_url(self):
         return reverse('order_detail', kwargs = {'ID': self.pk})
