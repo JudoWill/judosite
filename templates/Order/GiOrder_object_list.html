@@ -19,15 +19,19 @@
 <thead>
 <th>Person</th>
 <th>Status</th>
+<th>Paid</th>
 <th>Gi Type</th>
 <th>Color</th>
+<th>Size</th>
 </thead>
 {% for order in object_list %}
 <tr>
 <td><a href="{{ order.get_absolute_url }}">{{ order.person.Name }}</a></td>
 <td>{{ order.orderstatus_set.latest.status }}</td>
+<td>{% if order.paid %}<img src="{{MEDIA_URL}}/icon-yes.gif">{% else %}<img src="{{MEDIA_URL}}/icon-no.gif">{% endif %}</td>
 <td>{{ order.gitype.description }}</td>
 <td>{{ order.gitype.color }}</td>
+<td>{{ order.gitype.size }}</td>
 </tr>
 {% endfor %}
 </table>
