@@ -44,6 +44,9 @@ class GiType(models.Model):
     description = models.CharField(max_length = 255)
     color = models.CharField(max_length = 10, choices = (('White', 'White'), 
                                                         ('Blue', 'Blue')))
+    weave = models.CharField(max_length = 20, choices = (('Single', 'Single'),
+                                                        ('Double', 'Double'),
+                                                        ('Competition', 'Competition')))
     price = models.IntegerField()
     size = models.IntegerField()
 
