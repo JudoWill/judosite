@@ -11,7 +11,7 @@ class GiOrderAdmin(admin.ModelAdmin):
         messages.success(request, 'Closed %i orders' % num)
 
 class GiTypeAdmin(admin.ModelAdmin):
-    list_display = ['description', 'color', 'size', 'price']
+    list_display = ['description', 'color', 'weave', 'size', 'price']
 
 
 admin.site.register(GiOrder, GiOrderAdmin)
