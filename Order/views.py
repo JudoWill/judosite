@@ -14,15 +14,17 @@ from forms import *
 def order_list(request):
     
     if request.method == 'POST':
-        form = NewOrder(request.POST)
+        form = NOrder(request.POST)
         if form.is_valid():
-            order = form.save(commit = False)
+            gi = form.cleaned_data['gi']
+            order = GiOrder(person = form.cleaned_data['person'],
+                            gitype = gi, date = form.cleaned_data['date'])
             order.save()
             OrderStatus(order = order, date = order.date, status = 'Requested').save()
             messages.success(request, 'Order was created for %s.' % order.person.Name)
             return HttpResponseRedirect(order.get_absolute_url())
     else:
-        form = NewOrder()
+        form = NOrder()
 
 
     info_dict = {

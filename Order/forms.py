@@ -13,10 +13,30 @@ class NOrder(forms.Form):
                                             ('Mizuno', 'Mizuno')))
     weave = forms.ChoiceField(choices = (('Single', 'Single'),
                                             ('Double', 'Double'),
-                                            ('Competition', 'Competition'))
+                                            ('Competition', 'Competition')))
+    color = forms.ChoiceField(choices = (('White', 'White'),
+                                            ('Blue', 'Blue')))
     size = forms.IntegerField(max_value = 7, min_value = 1)
-    order_date = forms.DateField()
+    date = forms.DateField()
     person = ModelChoiceField('student')
+    gi = forms.ModelChoiceField(queryset = GiType.objects.all(),
+                                required = False, widget = forms.HiddenInput)
+
+
+    def clean(self):
+        data = self.cleaned_data
+        try:
+            gi = GiType.objects.get(description = data['gi_type'],
+                                    color = data['color'],
+                                    weave = data['weave'],
+                                    size = data['size'])
+        except GiType.DoesNotExist:
+            raise forms.ValidationError('No such gi!')
+        except GiType.MultipleObjectsReturned:
+            raise forms.ValidationError('Not specific enough!')
+        data['gi'] = gi
+        return data
+
 
 
 
