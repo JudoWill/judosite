@@ -36,7 +36,7 @@ def order_list(request):
 def order_detail(request, ID = None):
     
     order = get_object_or_404(GiOrder, pk = ID)
-    OrderStatusFormset = inlineformset_factory(GiOrder, OrderStatus)    
+    OrderStatusFormset = inlineformset_factory(GiOrder, OrderStatus, max_num = 3)    
     if request.method == 'POST':
         formset = OrderStatusFormset(request.POST, instance = order)
         if formset.is_valid():
