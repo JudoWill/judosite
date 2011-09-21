@@ -137,6 +137,14 @@ def practice_detail(request, club = None, id = None):
                                                             Person = person)
                 if new_r:
                     messages.success(request, '%s was added succeessfuly to this practice.' % person.Name)
+                if not person.memberrecord_set.filter(Club = club).latest().is_active:
+                    prevmr = person.memberrecord_set.filter(Club = club).latest()
+                    days_gone =  (prevmr.DateOccured - practice.Date).days
+                    mr = MemberRecord(Person = person,
+                                  Club = club,
+                                  DateOccured = practice.Date)
+                    mr.save()
+                    messages.success(request, '%s came back after %i days of inactivity!' % (person.Name, abs(days_gone)))
             
             tech = form.cleaned_data.get('Technique', None)
             if tech is None and len(form.cleaned_data['New_technique']) > 0:
