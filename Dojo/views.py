@@ -3,25 +3,19 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.forms.formsets import formset_factory
 from django.forms.models import inlineformset_factory, modelformset_factory
 from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Max
 from django.views.generic import list_detail
-from django.views.decorators.cache import cache_page, never_cache
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from csv import DictReader, DictWriter
-from StringIO import StringIO
-from copy import deepcopy
-from operator import itemgetter, attrgetter
-from collections import defaultdict
+from operator import attrgetter
 from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
-from Dojo.models import *
-from Technique.models import *
-from forms import *
+from Dojo.models import Club, Person, Practice
+from Dojo.models import RequirementRecord, PracticeRecord, MemberRecord, RankRecord
+from Technique.models import Technique
+from forms import RequirementForm, PersonInfoForm, PracticeForm, ManagerForm, PracticeModelForm, LPracticeForm
 from utils import update_player_active_qset, sliding_window, check_manager_status
 
 from GChartWrapper import GChart
