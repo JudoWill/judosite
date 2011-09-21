@@ -184,7 +184,7 @@ def person_list(request, club = None):
 def person_detail(request, id = None):
 
     person = get_object_or_404(Person, id = int(id))
-    clubs = person.club_set.all()
+    clubs = person.club_set.all().distinct()
     try:
         recent_rank = person.rankrecord_set.latest()
     except ObjectDoesNotExist:
