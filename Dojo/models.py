@@ -54,6 +54,9 @@ class Club(models.Model):
 
         return qset
 
+    def get_active_members(self):
+        return self.Members.filter(memberrecord__is_active = True)
+
 class Person(models.Model):
     Name = models.CharField(max_length = 255)
     Email = models.EmailField(null = True, blank = True, default = None)
