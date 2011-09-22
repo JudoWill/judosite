@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from operator import attrgetter
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Count
 from django.contrib import messages
 
 from Dojo.models import Club, Person, Practice
@@ -131,6 +131,12 @@ def practice_detail(request, club = None, id = None):
                                                             Person = person)
                 if new_r:
                     messages.success(request, '%s was added succeessfuly to this practice.' % person.Name)
+                if not person.memberrecord_set.filter(Club = club).exists():
+                    mr = MemberRecord(Person = person,
+                                  Club = club,
+                                  DateOccured = practice.Date)
+                    mr.save()
+
                 if not person.memberrecord_set.filter(Club = club).latest().is_active:
                     prevmr = person.memberrecord_set.filter(Club = club).latest()
                     days_gone =  (prevmr.DateOccured - practice.Date).days
