@@ -55,7 +55,8 @@ class Club(models.Model):
         return qset
 
     def get_active_members(self):
-        return self.Members.filter(memberrecord__is_active = True)
+        aqset =  self.Members.annotate(na = Count('practicerecord'))
+        return aqset.filter(memberrecord__is_active = True).filter(na__gte = 3)
 
 class Person(models.Model):
     Name = models.CharField(max_length = 255)
