@@ -40,6 +40,7 @@ class WindowAttendanceForm(forms.Form):
 
     Start_date = forms.DateField(required = True)
     End_date = forms.DateField(required = True, initial = date.today())
+    Club = forms.ModelChoiceField(queryset = Club.objects.all())
 
     def clean(self):
         if self.cleaned_data['Start_date'] > self.cleaned_data['End_date']:

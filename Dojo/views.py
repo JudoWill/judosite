@@ -15,7 +15,7 @@ from django.contrib import messages
 from Dojo.models import Club, Person, Practice
 from Dojo.models import RequirementRecord, PracticeRecord, MemberRecord, RankRecord
 from Technique.models import Technique
-from forms import RequirementForm, PersonInfoForm, PracticeForm, ManagerForm, PracticeModelForm, LPracticeForm
+from forms import RequirementForm, PersonInfoForm, PracticeForm, ManagerForm, PracticeModelForm, LPracticeForm, WindowAttendanceForm
 from utils import update_player_active_qset, sliding_window, check_manager_status
 
 from GChartWrapper import GChart
@@ -177,13 +177,37 @@ def practice_detail(request, club = None, id = None):
 
 def person_list(request, club = None):
     if club:
-        club_obj = Club.objects.get(Slug = club)
+        try:
+            club_obj = Club.objects.get(Slug = club)
+        except Club.DoesNotExist:
+            club_obj = None
+
     else:
         club_obj = None
 
     request.session['last_page'] = request.path
+
+    personqset = Person.objects.none()
+    if request.method == 'POST':
+        form = WindowAttendanceForm(request.POST)
+        if form.is_valid():
+            club_obj = form.cleaned_data['Club']
+            personqset = Person.objects.time_window_qset(form.cleaned_data['Start_date'],
+                                                        form.cleaned_data['End_date'],
+                                                        club_obj)
+            return render_to_response('Dojo/Person_object_list.html',
+                   {
+                   'club':club_obj,
+                   'person_list':personqset,
+                   'window_form':form
+               })
+    else:
+        form = WindowAttendanceForm()
+
     info_dict = {
-        'club':club_obj
+        'club':club_obj,
+        'window_form':form,
+        'person_list':personqset
     }
 
     return render_to_response('Dojo/Person_object_list.html', info_dict,
@@ -283,3 +307,34 @@ def make_messages(request, oitem, nitem, fields):
     for field, ores, nres in zip(fields, func(oitem), func(nitem)):
         if ores != nres:
             request.success('Changed %s to %s' % (field, nres))
+
+def attendance_time_window(request, club = None):
+
+    if club:
+        club_obj = Club.objects.get(Slug = club)
+    else:
+        club_obj = None
+
+    personqset = Person.objects.none()
+    if request.method == 'POST':
+        form = WindowAttendanceForm(request.POST)
+        if form.is_valid():
+           personqset = Person.objects.time_window_qset(form.cleaned_data['Start_date'],
+                                                        form.cleaned_data['End_date'],
+                                                        club_obj)
+           return render_to_response('Dojo/Person_object_list.html',
+                   {
+                   'club':club_obj,
+                   'person_list':personqset,
+                   'window_form':form
+               })
+    else:
+        form = WindowAttendanceForm()
+
+
+    return render_to_response('Dojo/Person_object_list.html',
+                   {
+                   'club':club_obj,
+                   'person_list':personqset,
+                   'window_form':form
+               })

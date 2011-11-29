@@ -3,10 +3,22 @@
 
 {% block subtitle %}{% if club %}{{ club.Name }}:{% endif %}Member List{% endblock %}
 {% block content %}
+
+    <form id="window_form" method="post" action="{% url person_list_by_club club=club%}">
+    {{ window_form.as_ul }}
+    {%  csrf_token %}
+    <input type="submit" value="Submit">
+
 <h4>Active Members</h4>
-{% list_active_players "None" %}
+    {% if person_list.empty %}
+        {% list_active_players "None" %}
+    {%  else %}
+        {% include "Dojo/person_list_active_short.html" %}
+    {% endif %}
 
 <h4>InActive Members</h4>
-{% list_inactive_players "None" %}
+    {% if person_list.empty %}
+        {% list_inactive_players "None" %}
+    {% endif %}
 
 {% endblock %}
