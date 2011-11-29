@@ -39,7 +39,7 @@ class ManagerForm(forms.Form):
 class WindowAttendanceForm(forms.Form):
 
     Start_date = forms.DateField(required = True)
-    End_date = forms.DateField(required = True, default = date.today())
+    End_date = forms.DateField(required = True, initial = date.today())
 
     def clean(self):
         if self.cleaned_data['Start_date'] > self.cleaned_data['End_date']:
