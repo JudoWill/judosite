@@ -36,7 +36,15 @@ class ManagerForm(forms.Form):
     User = LocalModelChoiceField('users', required = False)
 
 
+class WindowAttendanceForm(forms.Form):
 
+    Start_date = forms.DateField(required = True)
+    End_date = forms.DateField(required = True, default = date.today())
+
+    def clean(self):
+        if self.cleaned_data['Start_date'] > self.cleaned_data['End_date']:
+            raise forms.ValidationError('End Date must be after the Start Date!')
+        return self.cleaned_data
         
 
 class PracticeModelForm(ModelForm):
